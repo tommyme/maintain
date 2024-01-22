@@ -1,0 +1,135 @@
+{
+  "debug.toolBarLocation": "commandCenter",
+  "editor.accessibilitySupport": "on",
+  "extensions.ignoreRecommendations": true,
+  "audioCues.lineHasBreakpoint": "off",
+  "audioCues.lineHasError": "off",
+  "audioCues.lineHasFoldedArea": "off",
+  "audioCues.lineHasInlineSuggestion": "off",
+  "audioCues.noInlayHints": "off",
+  "audioCues.volume": 0,
+  "redhat.telemetry.enabled": true,
+  "go.toolsManagement.autoUpdate": true,
+  "editor.wordWrap": "on",
+  "[jsonc]": {
+    "editor.defaultFormatter": "vscode.json-language-features"
+  },
+  "[json]": {
+    "editor.tabSize": 2,
+    "editor.defaultFormatter": "vscode.json-language-features"
+  },
+  "[javascript]": {
+    "editor.defaultFormatter": "vscode.typescript-language-features"
+  },
+  "[typescript]": {
+    "editor.tabSize": 2,
+    "editor.defaultFormatter": "vscode.typescript-language-features"
+  },
+  "explorer.confirmDragAndDrop": false,
+  "git.enableSmartCommit": true,
+  "[html]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.tabSize": 2
+  },
+  "[css]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.tabSize": 2
+  },
+  "[vue]": {
+    "editor.tabSize": 2,
+    "editor.defaultFormatter": "Vue.volar"
+  },
+  "[python]": {
+    "editor.formatOnType": true
+  },
+  "tabnine.experimentalAutoImports": true,
+  "runTerminalCommand.commands": [
+    {
+      "command": "ng g c ",
+      "name": "Generate Component"
+    },
+    {
+      "command": "tsc {resource}",
+      "auto": true
+    },
+    {
+      "command": "dotnet run",
+      "auto": true,
+      "group": ".NET Core"
+    },
+    {
+      "command": "dotnet add page -n ",
+      "group": ".NET Core"
+    },
+    {
+      "command": "dotnet watch run",
+      "auto": true,
+      "preserve": true,
+      "group": ".NET Core"
+    },
+    {
+      "command": "dotnet add package {clipboard}",
+      "auto": true,
+      "group": ".NET Core"
+    }
+  ],
+  "command-runner.commands": {
+    "echo file": "echo ${file}"
+  },
+  "python.languageServer": "Pylance",
+  "python.analysis.autoImportUserSymbols": true,
+  "audioCues.diffLineDeleted": "off",
+  "audioCues.diffLineInserted": "off",
+  "audioCues.diffLineModified": "off",
+  "audioCues.notebookCellCompleted": "off",
+  "audioCues.notebookCellFailed": "off",
+  "audioCues.taskCompleted": "off",
+  "audioCues.taskFailed": "off",
+  "audioCues.terminalQuickFix": "off",
+  "audioCues.terminalCommandFailed": "off",
+  "yaml.customTags": [
+    "!And",
+    "!And sequence",
+    "!If",
+    "!If sequence",
+    "!Not",
+    "!Not sequence",
+    "!Equals",
+    "!Equals sequence",
+    "!Or",
+    "!Or sequence",
+    "!FindInMap",
+    "!FindInMap sequence",
+    "!Base64",
+    "!Join",
+    "!Join sequence",
+    "!Cidr",
+    "!Ref",
+    "!Sub",
+    "!Sub sequence",
+    "!GetAtt",
+    "!GetAZs",
+    "!ImportValue",
+    "!ImportValue sequence",
+    "!Select",
+    "!Select sequence",
+    "!Split",
+    "!Split sequence"
+  ],
+  "git.openRepositoryInParentFolders": "never",
+  "editor.minimap.enabled": false,
+  "python.autoComplete.extraPaths": [],
+  "python.analysis.extraPaths": [],
+  "workbench.iconTheme": "vscode-icons",
+  "gitlens.views.commitDetails.files.layout": "tree",
+  "jupyter.notebookFileRoot": "${workspaceFolder}",
+  // "python.testing.pytestArgs": ["--html=report.html"],
+  "python.testing.pytestEnabled": true,
+  "hexeditor.columnWidth": 4,
+  "hexeditor.showDecodedText": true,
+  "hexeditor.defaultEndianness": "little",
+  "hexeditor.inspectorType": "aside",
+  "terminal.integrated.scrollback": 10000,
+  "editor.bracketPairColorization.independentColorPoolPerBracketType": true,
+  "editor.guides.bracketPairs": true
+}
