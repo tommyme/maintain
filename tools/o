@@ -1,0 +1,12 @@
+#!/usr/local/bin/python3
+import click_completion
+from mycmds.cli import cli, Command
+import click_completion.core
+
+@Command(cli)
+def completion():
+    click_completion.core.install()
+
+if __name__ == '__main__':
+    click_completion.init()
+    cli()
