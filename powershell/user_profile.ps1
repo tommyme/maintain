@@ -224,4 +224,36 @@ function o() {
 Remove-Alias popd
 alias popd Pop-Location
 
+function netconf {
+    [CmdletBinding()]
+    param(
+        [string]$ipAddress,
+        [string]$gateway,
+        [string]$dnsServer,
+        [switch]$reset
+    )
+
+    # $adapterName = (Get-NetAdapter).Name
+
+    if ($reset) {
+        # 恢复默认网络设置
+        Remove-NetIPAddress -InterfaceAlias $adapterName
+        Set-NetIPInterface -InterfaceAlias $adapterName -Dhcp Enabled
+        Set-DnsClientServerAddress -InterfaceAlias $adapterName -ResetServerAddresses
+    } else {
+        if (-not $ipAddress -or -not $gateway -or -not $dnsServer) {
+            echo '请输入参数进行配置, 例如: netconf -ipAddress "192.168.3.111" -gateway "192.168.3.2" -dnsServer "8.8.8.8"'
+            return
+        }
+        # 设置 IP 地址
+        New-NetIPAddress -InterfaceAlias $adapterName -IPAddress $ipAddress -PrefixLength 24
+
+        # 设置默认网关
+        Set-NetIPInterface -InterfaceAlias $adapterName -NextHop $gateway
+
+        # 设置 DNS 服务器
+        Set-DnsClientServerAddress -InterfaceAlias $adapterName -ServerAddresses $dnsServer
+    }
+}
+
 pyp "$env:HOME/maintain/main/pypkgs"
