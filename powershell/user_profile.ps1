@@ -233,27 +233,38 @@ function netconf {
         [switch]$reset
     )
 
-    # $adapterName = (Get-NetAdapter).Name
+    $adapterName = (Get-NetAdapter).Name[1]
 
     if ($reset) {
         # 恢复默认网络设置
-        Remove-NetIPAddress -InterfaceAlias $adapterName
-        Set-NetIPInterface -InterfaceAlias $adapterName -Dhcp Enabled
-        Set-DnsClientServerAddress -InterfaceAlias $adapterName -ResetServerAddresses
+        sudo Remove-NetIPAddress -InterfaceAlias $adapterName
+        sudo Set-NetIPInterface -InterfaceAlias $adapterName -Dhcp Enabled
+        sudo Set-DnsClientServerAddress -InterfaceAlias $adapterName -ResetServerAddresses
     } else {
         if (-not $ipAddress -or -not $gateway -or -not $dnsServer) {
             echo '请输入参数进行配置, 例如: netconf -ipAddress "192.168.3.111" -gateway "192.168.3.2" -dnsServer "8.8.8.8"'
             return
         }
         # 设置 IP 地址
-        New-NetIPAddress -InterfaceAlias $adapterName -IPAddress $ipAddress -PrefixLength 24
+        sudo Set-NetIPAddress -InterfaceAlias $adapterName -IPAddress $ipAddress -PrefixLength 24
 
         # 设置默认网关
-        Set-NetIPInterface -InterfaceAlias $adapterName -NextHop $gateway
+        sudo Set-NetRoute -InterfaceAlias $adapterName -DestinationPrefix 0.0.0.0/0 -NextHop $gateway
 
         # 设置 DNS 服务器
-        Set-DnsClientServerAddress -InterfaceAlias $adapterName -ServerAddresses $dnsServer
+        sudo Set-DnsClientServerAddress -InterfaceAlias $adapterName -ServerAddresses $dnsServer
     }
 }
+
+function md5sum {
+    param(
+        [Parameter(Mandatory=$true)]
+        [string]$FilePath
+    )
+
+    $hash = Get-FileHash -Path $FilePath -Algorithm MD5 | Select-Object -ExpandProperty Hash
+    return $hash
+}
+
 
 pyp "$env:HOME/maintain/main/pypkgs"
