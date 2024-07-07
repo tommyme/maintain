@@ -1,7 +1,13 @@
 #!/usr/local/bin/python3
-import click_completion
-from mycmds.cli import cli, Command
-import click_completion.core
+try:
+    import click_completion
+    from mycmds.cli import cli, Command
+    import click_completion.core
+except ImportError:
+    import os
+    requirement_path = os.path.join(os.path.dirname(__file__), 'requirements.txt')
+    print("Please install the required packages: pip install -r {}".format(requirement_path))
+    exit()
 
 @Command(cli)
 def completion():

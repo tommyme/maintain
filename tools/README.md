@@ -17,8 +17,6 @@
 - [ ] vscode 设置与快捷键一键同步
 - [ ] dbsa凌晨关闭
 
-
-
-
-
-
+# 程序来源
+- mecopy.exe [github](https://github.com/zanjie1999/mecopy)
+	- 这款程序能够帮助你粘贴剪贴板的图片到文件夹中

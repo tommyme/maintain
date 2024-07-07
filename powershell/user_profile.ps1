@@ -172,21 +172,22 @@ function psh {
       }
       return $false
   }
-
+  $final_path = ""
   foreach ($p in $env:PATH.Split(";")) {
       if (-not $p) {
         continue
       }
       $pp = Join-Path $p $command
       if (Test-Path $pp -PathType Leaf) {
-          if (judge $pp) {
-              $flag = $true
-          }
+        if (judge $pp) {
+            $flag = $true
+            $final_path = $pp
+        }
       }
   }
   if ($flag) {
     $xargs = $args[1..($args.Length - 1)]
-    python3 $pp @xargs
+    python3 $final_path @xargs
   } else {
     echo "command not found"
   }
@@ -266,5 +267,10 @@ function md5sum {
     return $hash
 }
 
-
+$env:HOME=$env:USERPROFILE
 pyp "$env:HOME/maintain/main/pypkgs"
+
+# 打开编辑环境变量面板
+function env-edit {
+  rundll32 sysdm.cpl,EditEnvironmentVariables
+}
