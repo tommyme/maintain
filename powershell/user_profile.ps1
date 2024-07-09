@@ -271,6 +271,20 @@ $env:HOME=$env:USERPROFILE
 pyp "$env:HOME/maintain/main/pypkgs"
 
 # 打开编辑环境变量面板
-function env-edit {
+function board-env {
   rundll32 sysdm.cpl,EditEnvironmentVariables
+}
+
+# 打开蓝牙面板
+function board-bluetooth {
+  bthprops.cpl
+}
+
+# 打开网络适配器面板
+function board-adapters {
+  ncpa.cpl
+}
+
+function monitor-close {
+  ControlMyMonitor.exe /SetValue Primary D6 5
 }
