@@ -32,5 +32,10 @@ CapsLock::RCtrl
 >^+k::Send, +{Up}
 >^+l::Send, +{Right}
 
+:*:``::
+    SendInput, {U+60}
+    ; 60 is hex, indicates ascii code
+return
+
 NumLock::Suspend
 #CapsLock::CapsLock
