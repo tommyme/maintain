@@ -56,8 +56,10 @@ virtenv_prompt() {
 local exit_code="%(?,,C:%{$fg[red]%}%?%{$reset_color%})"
 
 conda_prompt() {
-	env_name=$(conda info --envs | grep '*' | awk '{print $1}')
-	echo " %{$terminfo[bold]$fg[green]%}:${env_name}:%{$reset_color%}";
+	if command -v conda &> /dev/null; then
+		env_name=$(conda info --envs | grep '*' | awk '{print $1}')
+		echo " %{$terminfo[bold]$fg[green]%}:${env_name}:%{$reset_color%}";
+	fi
 }
 local conda_info='$(conda_prompt)'
 
