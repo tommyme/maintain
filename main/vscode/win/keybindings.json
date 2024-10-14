@@ -1,0 +1,96 @@
+[
+  {
+      "key": "alt+q",
+      "command": "workbench.action.terminal.clear"
+  },
+  {
+      "key": "ctrl+p",
+      "command": "workbench.action.showCommands"
+  },
+  {
+      "key": "ctrl+shift+p",
+      "command": "-workbench.action.showCommands"
+  },
+  {
+      "key": "f1",
+      "command": "-workbench.action.showCommands"
+  },
+  {
+      "key": "ctrl+o",
+      "command": "workbench.action.quickOpen"
+  },
+  {
+      "key": "ctrl+p",
+      "command": "-workbench.action.quickOpen"
+  },
+  {
+      "key": "alt+oem_2",
+      "command": "editor.action.commentLine",
+      "when": "editorTextFocus && !editorReadonly"
+  },
+  {
+      "key": "ctrl+oem_2",
+      "command": "-editor.action.commentLine",
+      "when": "editorTextFocus && !editorReadonly"
+  },
+  {
+      "key": "alt+w",
+      "command": "editor.action.smartSelect.expand",
+      "when": "editorTextFocus"
+  },
+  {
+      "key": "shift+alt+right",
+      "command": "-editor.action.smartSelect.expand",
+      "when": "editorTextFocus"
+  },
+  {
+      "key": "ctrl+k ctrl+m",
+      "command": "bookmark_x.toggleLabeledBookmark"
+  },
+  {
+      "key": "ctrl+oem_1",
+      "command": "editor.action.quickFix",
+      "when": "editorHasCodeActionsProvider && textInputFocus && !editorReadonly"
+  },
+  {
+      "key": "ctrl+oem_period",
+      "command": "-editor.action.quickFix",
+      "when": "editorHasCodeActionsProvider && textInputFocus && !editorReadonly"
+  },
+  {
+      "key": "enter",
+      "command": "renameFile",
+      "when": "filesExplorerFocus && foldersViewVisible && !explorerResourceIsRoot && !explorerResourceReadonly && !inputFocus"
+  },
+  {
+      "key": "f2",
+      "command": "-renameFile",
+      "when": "filesExplorerFocus && foldersViewVisible && !explorerResourceIsRoot && !explorerResourceReadonly && !inputFocus"
+  },
+  {
+      "key": "ctrl+k ctrl+i",
+      "command": "bmx.quickrun.gotoTopOfDocument"
+  },
+  {
+      "key": "ctrl+k ctrl+o",
+      "command": "bmx.quickrun.gotoEndOfDocument"
+  },
+  {
+      "key": "ctrl+e",
+      "command": "-workbench.action.quickOpen"
+  },
+  {
+      "key": "ctrl+e",
+      "command": "workbench.files.action.showActiveFileInExplorer"
+  },
+  {
+      "key": "shift+enter",
+      "command": "-python.execSelectionInTerminal",
+      "when": "editorTextFocus && !findInputFocussed && !jupyter.ownsSelection && !notebookEditorFocused && !replaceInputFocussed && editorLangId == 'python'"
+  },
+  {
+      "key": "shift+enter",
+      "command": "-jupyter.execSelectionInteractive",
+      "when": "editorTextFocus && isWorkspaceTrusted && jupyter.ownsSelection && !findInputFocussed && !notebookEditorFocused && !replaceInputFocussed && editorLangId == 'python'"
+  }
+]
