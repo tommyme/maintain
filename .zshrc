@@ -104,6 +104,7 @@ plugins+=(
     docker
     docker-compose
     web-search
+    kernel
 )
 
 plugins+=(
