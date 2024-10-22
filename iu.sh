@@ -44,13 +44,13 @@ base(){
         fi
     }
     git_init(){
-        ssh-keygen -t rsa -C "2756456886@qq.com"
+        ssh-keygen -t rsa -C "mail"
         cat ~/.ssh/id_rsa.pub
         read -p "please copy the key & goto https://github.com/settings/ssh/new"
-        git config --global user.email "2756456886@qq.com"
-        git config --global user.name "you-bowen"
+        git config --global user.email "mail"
+        git config --global user.name "username"
     }
-    github_ssh_login_key(){ bash <(curl -fsSL love4cry.cn/key.sh) -g you-bowen; }
+    github_ssh_login_key(){ bash <(curl -fsSL love4cry.cn/key.sh) -g tommyme; }
     NVIM(){ curl -sLf https://spacevim.org/install.sh | bash; }
     etc_sudoers(){
         read -p "1. will modify [sudo]->NOPASSWD; 2. preserve proxy env to root" xxx
@@ -93,7 +93,7 @@ ctf(){
         sudo gem install one_gadget
 
         # pwn project (includes buuctf libc)
-        cd ~ && git clone https://github.com/you-bowen/pwn
+        cd ~ && git clone https://github.com/tommyme/pwn
 
 
         # glibc_all_in_one

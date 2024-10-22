@@ -229,7 +229,7 @@ def vscode(filename: str):
         path = r'{}/Library/Application Support/Code/User/snippets/{}.json'.format(os.environ["HOME"],lang)
     elif is_linux:
         if is_WSL2:
-            path = r'/mnt/c/Users/27564/AppData/Roaming/Code/User/snippets/{}.json'.format(lang)
+            path = r'/mnt/c/Users/tommy/AppData/Roaming/Code/User/snippets/{}.json'.format(lang)
         else:
             path = r"/home/{}/.config/Code - Insiders/User/snippets/{}.json".format(os.getlogin(), lang)
     else:

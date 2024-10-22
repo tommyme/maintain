@@ -3,7 +3,7 @@ plugins=()
 export ZSH="$HOME/.oh-my-zsh"
 export PATH=$HOME/maintain/tools:$HOME/pwn/tools:$PATH
 export PATH=$PATH:$HOME/.pkg_uninstaller:$HOME/tools/
-export GITHUB_USER="you-bowen"
+export GITHUB_USER="tommyme"
 # go path about
 export GOPATH="$HOME/gopath"
 export GOSELF="$GOPATH/src/github.com/$GITHUB_USER" 

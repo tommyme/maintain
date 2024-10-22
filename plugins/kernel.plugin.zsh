@@ -24,7 +24,7 @@ function set-kernel-img() {
 }
 
 
-function get_toolchain() {
+function get-toolchain() {
     case $kernel_arch in
         arm64)
             echo "aarch64-linux-gnu-"
@@ -38,4 +38,10 @@ function get_toolchain() {
     esac
 }
 
-alias make-arch="make ARCH=\$kernel_arch CROSS_COMPILE=\$(get_toolchain) -j \$(nproc)"
+function kernel-check() {
+    echo kernel_img     $kernel_img
+    echo kernel_rootfs  $kernel_rootfs
+    echo kernel_arch    $kernel_arch
+}
+
+alias make-arch="make ARCH=\$kernel_arch CROSS_COMPILE=\$(get-toolchain) -j \$(nproc)"
