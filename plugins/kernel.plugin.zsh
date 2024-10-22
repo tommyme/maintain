@@ -38,4 +38,4 @@ function get_toolchain() {
     esac
 }
 
-alias make-arch="make ARCH=\$kernel_arch CROSS_COMPILE=\$(get_toolchain) -j \$(nproc)"
+alias make-arch="make ARCH=\$kernel_arch CROSS_COMPILE=\$(get_toolchain) -j \$(nproc)"
