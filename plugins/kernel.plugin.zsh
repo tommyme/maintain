@@ -1,6 +1,6 @@
 export kernel_img=""
 export kernel_rootfs=""
-export kernel_arch=""
+export kernel_arch="arm64"
 
 function set-arch() {
     export kernel_arch=$1
