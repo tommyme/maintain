@@ -31,6 +31,7 @@ alias maintain="cd ~/maintain && clash && pon && sleep 0.3 && git pull && ka cla
 alias twrp="fastboot flash recovery"
 alias hhh="hexo clean && hexo g && hexo s"
 alias wnb="watch -n 1 nbtest"
+alias bat="batcat"
 # pypath
 function pyp() {
     if [ -z "$PYTHONPATH" ]; then
@@ -82,6 +83,8 @@ fi
 
 # key bindings
 bindkey \^U backward-kill-line # bind ctrl u to kill line
+bindkey '^[[H' beginning-of-line # Home
+bindkey '^[[F' end-of-line # End
 
 if [ -e "$ZSH/themes/ybw-ys.zsh-theme" ]; then ZSH_THEME="ybw-ys"; else ZSH_THEME="ys"; fi
 plugins+=(
@@ -101,6 +104,7 @@ plugins+=(
     docker
     docker-compose
     web-search
+    kernel
 )
 
 plugins+=(

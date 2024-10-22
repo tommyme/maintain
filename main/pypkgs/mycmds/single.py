@@ -127,7 +127,7 @@ def loc(name):
     import pyperclip as ppc
     # 问题是 只能改变子进程的目录 无法改变父进程的目录
     def process(s: str):
-        return s.replace('~', '\~').replace(' ', '\ ')
+        return s.replace('~', '\\~').replace(' ', '\\ ')
     mapper = {
         'obsidian': os.path.expanduser('~/Library/Mobile Documents/iCloud~md~obsidian/Documents'),
         'self': os.path.expanduser('~/Library/Mobile Documents/com~apple~CloudDocs/self')
@@ -192,6 +192,14 @@ def copy():
 @Command(cli)
 @click.argument('filename')
 def vscode(filename: str):
+    """
+    Generate a Visual Studio Code snippet for a given file.
+
+    Args:
+        filename (str): The name of the file for which the snippet is generated.
+
+    如果文件里面的内容为del 那么就会删除对应的snippet
+    """
     import json
     import platform
 
@@ -248,7 +256,8 @@ def vscode(filename: str):
         new['description'] = 'template for {}'.format(snipName)
 
     data[snipName] = new
-    if content == 'DEL\n':  # 删除对应snippet就在文件中输入'DEL\n'
+    if content.strip().lower() == 'del':  # 删除对应snippet就在文件中输入'DEL\n'
+        print('delete snippet: {}'.format(snipName))
         data.pop(snipName)
 
     with open(path, 'w') as f:

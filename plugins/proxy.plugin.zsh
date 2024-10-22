@@ -9,6 +9,7 @@ alias pchain="proxychains4"
 alias ipip='echo "public IP addr: $(curl -s http://myip.ipip.net)"'
 alias pong="pon && google"
 alias check_proxy="echo \$http_proxy \$https_proxy \$all_proxy"
+alias gitpoff="git config --global --unset http.proxy;git config --global --unset https.proxy"
 function 3px(){
     # only one arg -> 127.0.0.1
     poff

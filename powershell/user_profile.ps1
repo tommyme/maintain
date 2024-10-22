@@ -172,21 +172,22 @@ function psh {
       }
       return $false
   }
-
+  $final_path = ""
   foreach ($p in $env:PATH.Split(";")) {
       if (-not $p) {
         continue
       }
       $pp = Join-Path $p $command
       if (Test-Path $pp -PathType Leaf) {
-          if (judge $pp) {
-              $flag = $true
-          }
+        if (judge $pp) {
+            $flag = $true
+            $final_path = $pp
+        }
       }
   }
   if ($flag) {
     $xargs = $args[1..($args.Length - 1)]
-    python3 $pp @xargs
+    python3 $final_path @xargs
   } else {
     echo "command not found"
   }
@@ -233,27 +234,57 @@ function netconf {
         [switch]$reset
     )
 
-    # $adapterName = (Get-NetAdapter).Name
+    $adapterName = (Get-NetAdapter).Name[1]
 
     if ($reset) {
         # 恢复默认网络设置
-        Remove-NetIPAddress -InterfaceAlias $adapterName
-        Set-NetIPInterface -InterfaceAlias $adapterName -Dhcp Enabled
-        Set-DnsClientServerAddress -InterfaceAlias $adapterName -ResetServerAddresses
+        sudo Remove-NetIPAddress -InterfaceAlias $adapterName
+        sudo Set-NetIPInterface -InterfaceAlias $adapterName -Dhcp Enabled
+        sudo Set-DnsClientServerAddress -InterfaceAlias $adapterName -ResetServerAddresses
     } else {
         if (-not $ipAddress -or -not $gateway -or -not $dnsServer) {
             echo '请输入参数进行配置, 例如: netconf -ipAddress "192.168.3.111" -gateway "192.168.3.2" -dnsServer "8.8.8.8"'
             return
         }
         # 设置 IP 地址
-        New-NetIPAddress -InterfaceAlias $adapterName -IPAddress $ipAddress -PrefixLength 24
+        sudo Set-NetIPAddress -InterfaceAlias $adapterName -IPAddress $ipAddress -PrefixLength 24
 
         # 设置默认网关
-        Set-NetIPInterface -InterfaceAlias $adapterName -NextHop $gateway
+        sudo Set-NetRoute -InterfaceAlias $adapterName -DestinationPrefix 0.0.0.0/0 -NextHop $gateway
 
         # 设置 DNS 服务器
-        Set-DnsClientServerAddress -InterfaceAlias $adapterName -ServerAddresses $dnsServer
+        sudo Set-DnsClientServerAddress -InterfaceAlias $adapterName -ServerAddresses $dnsServer
     }
 }
 
+function md5sum {
+    param(
+        [Parameter(Mandatory=$true)]
+        [string]$FilePath
+    )
+
+    $hash = Get-FileHash -Path $FilePath -Algorithm MD5 | Select-Object -ExpandProperty Hash
+    return $hash
+}
+
+$env:HOME=$env:USERPROFILE
 pyp "$env:HOME/maintain/main/pypkgs"
+
+# 打开编辑环境变量面板
+function board-env {
+  rundll32 sysdm.cpl,EditEnvironmentVariables
+}
+
+# 打开蓝牙面板
+function board-bluetooth {
+  bthprops.cpl
+}
+
+# 打开网络适配器面板
+function board-adapters {
+  ncpa.cpl
+}
+
+function monitor-close {
+  ControlMyMonitor.exe /SetValue Primary D6 5
+}
