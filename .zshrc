@@ -23,7 +23,7 @@ alias gcmms="git log --oneline | wc -l"
 
 # ipython opens $EDITOR when press `v` or `F2`
 export VCPKG_ROOT="$HOME/vcpkg"
-alias k="kubectl --insecure-skip-tls-verify"
+# alias k="kubectl --insecure-skip-tls-verify"
 alias kdes="kubectl --insecure-skip-tls-verify describe"
 alias nebula="sudo ~/apps/nebula/nebula -config /etc/nebula/config.yaml > ~/log/nebula.log 2>&1 &"
 alias nebula_restart="sudo kill -9 \$(pgrep nebula); nebula"
