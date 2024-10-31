@@ -55,6 +55,9 @@ alias bat="bat --style=plain"
 alias vimob='cd ~/Library/Mobile\ Documents/iCloud\~md\~obsidian/Documents && nvim'
 alias rustdesk='ssh tx "cd ~/apps/rustdesk-server-demo && ./run.sh"'
 alias ..='cd ..'
+alias pod='popd'
+zstyle ':completion:*:make:*:targets' call-command true
+zstyle ':completion:*:*:make:*' tag-order 'targets' 
 function codej(){
     j $1 && code . && popd
 }
