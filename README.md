@@ -1,5 +1,9 @@
 # maintain -- repo maintained frequently
-
+## quick start
+- clone repo
+- iu.sh
+- make install
+- make ...
 
 ## 写的一些小技巧
 

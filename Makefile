@@ -6,3 +6,7 @@ zsh_plugins:
 	python3 scripts/install_plugins.py
 ipython:
 	./main/ipython_profile_ybw/install.sh
+vim:
+	ln -sf ~/maintain/.vimrc ~/.vimrc
+tmux:
+	./main/tmux/install.sh
