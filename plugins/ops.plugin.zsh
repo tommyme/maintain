@@ -61,3 +61,12 @@ function ssl_cert_install(){
 function killport(){ 
     lsof -i TCP:$1 | grep LISTEN | awk '{print $2}' | xargs kill -9 
 }
+
+
+function create_tslog() {
+    local base_filename="$1"
+    local timestamp=$(date +"%y%m%d_%H%M%S")
+    local new_filename="${base_filename}_${timestamp}.log"
+    touch "$new_filename"
+    echo "$new_filename"
+}
