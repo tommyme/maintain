@@ -93,7 +93,6 @@ if [ -e "$ZSH/themes/ybw-ys.zsh-theme" ]; then ZSH_THEME="ybw-ys"; else ZSH_THEM
 plugins+=(
     aliases
     git
-    gitignore
     macos
     cp
     gitignore
@@ -118,6 +117,7 @@ plugins+=(
     proxy # 代理相关
     leecode # leecode 笔记快速创建
     android
+    sysbench
 )
 DISABLE_AUTO_UPDATE=true
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="bg=cyan,bold,underline"
