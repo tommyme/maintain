@@ -118,6 +118,7 @@ plugins+=(
     leecode # leecode 笔记快速创建
     android
     sysbench
+    custom
 )
 DISABLE_AUTO_UPDATE=true
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="bg=cyan,bold,underline"
