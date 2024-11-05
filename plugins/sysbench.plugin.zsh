@@ -6,6 +6,10 @@ declare -g -A _sb_config=(
     mysql_port         3306
     mysql_time         120
     mysql_preheat_time 600
+    mysql_db           sysbench
+
+    redis_size         1000000
+    redis_pipeline     20
 )
 # set val example: _sb_config[mysql_host]=localhost
 
@@ -28,7 +32,7 @@ _sb_mysql_base_cmd() {
     --mysql-user=root \
     --mysql-host=\${_sb_config[mysql_host]} \
     --mysql-port=\${_sb_config[mysql_port]} \
-    --mysql-db=sysbench \
+    --mysql-db=\${_sb_config[mysql_db]} \
     --forced-shutdown=off \
     --time=\${_sb_config[mysql_time]} \
     --report-interval=1 \
@@ -79,7 +83,7 @@ sb-mysql-preheat() {
     fi
 
     echo "Preheating with test type: $test_type"
-    eval "$(_sb_mysql_preheat_cmd) $profile run"
+    eval "$(_sb_mysql_preheat_cmd) --time=\${_sb_config[mysql_preheat_time]} $profile run"
 }
 
 # Redis benchmark function
@@ -90,7 +94,7 @@ sb-redis() {
     for clients in ${_sb_redis_clients_counts[@]}; do
         for ((i=1; i<=rounds; i++)); do
             echo "\"Clients\",\"$clients\""
-            redis-benchmark -n 1000000 -c $clients -P 20 -q -t set,get --csv
+            redis-benchmark -n \${_sb_config[redis_size]}  -c $clients -P \${_sb_config[redis_pipeline]}  -q -t set,get --csv
         done
     done
 }
