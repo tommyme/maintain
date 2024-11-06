@@ -6,11 +6,10 @@ declare -g -A _sb_config=(
     [mysql_port]=3306
     [mysql_time]=120
     [mysql_db]=sysbench
-    [mysql_thread_counts]=(1 4 8 16 32 64)
-
+    [mysql_thread_counts]="1 4 8 16 32 64"
     [redis_size]=1000000
     [redis_pipeline]=20
-    [redis_clients_counts]=(1 20 40 60 80 100)
+    [redis_clients_counts]="1 20 40 60 80 100"
 )
 
 function sb() {
@@ -59,11 +58,6 @@ _sb_completion() {
 compdef _sb_completion sb
 # set val example: _sb_config[mysql_host]=localhost
 
-# Test configurations
-_sb_mysql_thread_counts=(1 4 8 16 32 64)
-_sb_redis_clients_counts=(1 20 40 60 80 100)
-
-
 # Sysbench profiles
 declare -g -A _sb_profiles=(
     ro "oltp_read_only"
@@ -110,7 +104,7 @@ sb-mysql() {
     fi
 
     local filename="$(create_tslog $test_type)"
-    for threads in ${_sb_mysql_thread_counts[@]}; do
+    for threads in ${(s: :)_sb_config[mysql_thread_counts]}; do
         for ((i=1; i<=rounds; i++)); do
             echo "Running test with $threads threads (round $i/$rounds)..."
             eval "$(_sb_mysql_base_cmd $threads) $profile run" | tee -a "$filename"
@@ -137,10 +131,10 @@ sb-redis() {
     local rounds=${1:-1}
     local output=""
 
-    for clients in ${_sb_redis_clients_counts[@]}; do
+    for clients in ${(s: :)_sb_config[redis_clients_counts]}; do
         for ((i=1; i<=rounds; i++)); do
             echo "\"Clients\",\"$clients\""
-            redis-benchmark -n \${_sb_config[redis_size]}  -c $clients -P \${_sb_config[redis_pipeline]}  -q -t set,get --csv
+            redis-benchmark -n ${_sb_config[redis_size]}  -c $clients -P ${_sb_config[redis_pipeline]}  -q -t set,get --csv
         done
     done
 }
