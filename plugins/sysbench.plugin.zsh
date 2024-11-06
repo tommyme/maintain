@@ -50,7 +50,7 @@ _sb_completion() {
     local -a keys=("${(@k)_sb_config}")
     if (( CURRENT == 2 )); then
         _describe 'sub-command' setsubcmds
-    elif (( CURRENT == 3 )); then
+    elif (( CURRENT % 2 != 0 )); then
         _describe 'set-sub-command' keys
     fi
 }
