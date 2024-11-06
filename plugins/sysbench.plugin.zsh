@@ -1,16 +1,62 @@
 # Configuration variables
 declare -g -A _sb_config=(
-    mysql_table_size   10000
-    mysql_table_num    10
-    mysql_host         127.0.0.1
-    mysql_port         3306
-    mysql_time         120
-    mysql_preheat_time 600
-    mysql_db           sysbench
+    [mysql_table_size]=10000
+    [mysql_table_num]=10
+    [mysql_host]=127.0.0.1
+    [mysql_port]=3306
+    [mysql_time]=120
+    [mysql_db]=sysbench
+    [mysql_thread_counts]=(1 4 8 16 32 64)
 
-    redis_size         1000000
-    redis_pipeline     20
+    [redis_size]=1000000
+    [redis_pipeline]=20
+    [redis_clients_counts]=(1 20 40 60 80 100)
 )
+
+function sb() {
+    cmd=$1;shift 1
+    case "$cmd" in
+        set)
+            set_sb_config "$@"
+            ;;
+        get)
+            get_sb_config "$@"
+            ;;
+    esac
+}
+
+set_sb_config() {
+    local key value
+    while [[ $# -gt 0 ]]; do
+        key="$1"
+        value="$2"
+        shift 2
+        _sb_config[$key]=$value
+    done
+
+    echo "done"
+}
+
+# 获取所有配置的函数
+get_sb_config() {
+    for key in "${(@k)_sb_config}"; do
+        echo "$key: ${_sb_config[$key]}"
+    done
+}
+
+
+_sb_completion() {
+    local -a setsubcmds
+    setsubcmds=('set' 'get')
+    local -a keys=("${(@k)_sb_config}")
+    if (( CURRENT == 2 )); then
+        _describe 'sub-command' setsubcmds
+    elif (( CURRENT == 3 )); then
+        _describe 'set-sub-command' keys
+    fi
+}
+
+compdef _sb_completion sb
 # set val example: _sb_config[mysql_host]=localhost
 
 # Test configurations
@@ -83,7 +129,7 @@ sb-mysql-preheat() {
     fi
 
     echo "Preheating with test type: $test_type"
-    eval "$(_sb_mysql_preheat_cmd) --time=\${_sb_config[mysql_preheat_time]} $profile run"
+    eval "$(_sb_mysql_preheat_cmd) $profile prewarm"
 }
 
 # Redis benchmark function
