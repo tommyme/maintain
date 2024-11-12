@@ -103,11 +103,10 @@ sb-mysql() {
         return 1
     fi
 
-    local filename="$(create_tslog $test_type)"
     for threads in ${(s: :)_sb_config[mysql_thread_counts]}; do
         for ((i=1; i<=rounds; i++)); do
             echo "Running test with $threads threads (round $i/$rounds)..."
-            eval "$(_sb_mysql_base_cmd $threads) $profile run" | tee -a "$filename"
+            eval "$(_sb_mysql_base_cmd $threads) $profile run"
         done
     done
 }
