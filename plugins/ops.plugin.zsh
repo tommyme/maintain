@@ -32,6 +32,7 @@ alias k9="sudo kill -9"
 alias ka="sudo killall"
 alias history_fix="mv ~/.zsh_history ~/.zsh_history_bad && strings ~/.zsh_history_bad > ~/.zsh_history && fc -R ~/.zsh_history"
 alias lt="ls -t"
+alias grvv="grv | sed -E 's|ssh://git@([^:]+):[0-9]+/(.+)|https://\1/\2|'"
 function tarf(){
     local src="$(basename $1).tgz"
     local dst="$1"

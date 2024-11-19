@@ -76,6 +76,33 @@ function k() {
             echo kernel_rootfs  $kernel_rootfs
             echo kernel_arch    $kernel_arch
             ;;
+        exver)
+            shift 1;
+            sed -i "/^EXTRAVERSION =/s/=.*/= $1/" Makefile
+            echo "sed EXTRAVERSION done."
+            ;;
+        info)
+            cat /proc/cmdline
+            uname -a
+            echo "zcat /proc/config.gz"
+            ;;
+        run)
+            case "$2" in
+                make3)
+                    k run make2
+                    echo make3
+                    ;;
+                make2)
+                    echo make2
+                    ;;
+                bear)
+                    echo bear
+                    ;;
+                *)
+                    echo "etc"
+                    ;;
+            esac
+            ;;
         *)
             echo "unknown subcommand"
             ;;
@@ -91,6 +118,8 @@ _k_completions() {
         'set:set var for qemu and make'
         'check:check vars'
         'run:run sth'
+        'exver:sed extraversion in makefile'
+        'info:check current linux kernel info'
     )
 
     setsubcmds=(
