@@ -140,11 +140,14 @@ sb-redis() {
 
 # Format Redis CSV output
 sb-redis-fmtcsv() {
-    if [[ ! -f $1 ]]; then
-        echo "Error: File not found"
-        return 1
-    fi
+    for arg in "$@"; do
+        if [[ ! -f $arg ]]; then
+            echo "Error: File $arg not found"
+            return 1
+        fi
+    done
 
+    for arg in "$@"; do
     awk -F',' '
     BEGIN {
         order[1] = "\"Clients\""
@@ -160,7 +163,8 @@ sb-redis-fmtcsv() {
             print key substr(data[key], 1)
         }
     }
-    ' "$1"
+    ' "$arg"
+    done
 }
 
 # Completion function for MySQL commands
