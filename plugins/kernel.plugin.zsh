@@ -147,12 +147,20 @@ _k_completions() {
         'run:run sth'
         'exver:sed extraversion in makefile'
         'info:check current linux kernel info'
+        'trace:trace related commands'
     )
 
     setsubcmds=(
         'img'
         'rootfs'
         'arch'
+    )
+
+    tracesubcmds=(
+        'clean'
+        'set:set trace type and name'
+        'run:traceOn; run sth; traceOff'
+        'info'
     )
 
     if (( CURRENT == 2 )); then
@@ -162,16 +170,22 @@ _k_completions() {
             set)
                 _describe 'set-sub-command' setsubcmds
                 ;;
+            trace)
+                _describe 'trace-sub-command' tracesubcmds
+                ;;
         esac
     elif (( CURRENT == 4 )); then
-        case "$words[3]" in
-            arch)
+        case "$words[2]-$words[3]" in
+            set-arch)
                 local -a arch
                 arch=("arm64" "arm")
                 _describe 'architecture' arch
                 ;;
-            img)
+            set-img)
                 compadd $(ls "$PWD")
+                ;;
+            trace-set)
+                compadd $(sudo bash -c "cat /sys/kernel/debug/tracing/available_tracers")
                 ;;
         esac
     fi
