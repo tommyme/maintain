@@ -104,19 +104,19 @@ function k() {
             esac
             ;;
         trace)
-            # local trace_home="/sys/kernel/debug/tracing"
-            local trace_home="./tracing"
+            local trace_home="/sys/kernel/debug/tracing"
             case "$2" in
                 clean)
                     sudo bash -c "echo nop > $trace_home/current_tracer"
                     # clean data
                     sudo bash -c "echo > $trace_home/trace"
+                    # disable event in ftrace submodule
                     sudo bash -c "echo 0 > $trace_home/events/enable"
                     ;;
                 set)
                     shift 2
-                    sudo bash -c "echo $1 > $trace_home/set_ftrace_filter"
-                    sudo bash -c "echo $2 > $trace_home/current_tracer"
+                    sudo bash -c "echo $1 > $trace_home/current_tracer"     # function
+                    sudo bash -c "echo $2 > $trace_home/set_ftrace_filter"  # function name
                     ;;
                 run)
                     shift 2
