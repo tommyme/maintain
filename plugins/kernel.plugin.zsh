@@ -103,6 +103,33 @@ function k() {
                     ;;
             esac
             ;;
+        trace)
+            # local trace_home="/sys/kernel/debug/tracing"
+            local trace_home="./tracing"
+            case "$2" in
+                clean)
+                    sudo bash -c "echo nop > $trace_home/current_tracer"
+                    # clean data
+                    sudo bash -c "echo > $trace_home/trace"
+                    sudo bash -c "echo 0 > $trace_home/events/enable"
+                    ;;
+                set)
+                    shift 2
+                    sudo bash -c "echo $1 > $trace_home/set_ftrace_filter"
+                    sudo bash -c "echo $2 > $trace_home/current_tracer"
+                    ;;
+                run)
+                    shift 2
+                    sudo bash -c "echo 1 > $trace_home/tracing_on"
+                    $@
+                    sudo bash -c "echo 0 > $trace_home/tracing_on"
+                    ;;
+                info)
+                    echo $trace_home/trace
+                ;;
+
+            esac
+            ;;
         *)
             echo "unknown subcommand"
             ;;
