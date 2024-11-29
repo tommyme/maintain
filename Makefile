@@ -28,3 +28,4 @@ work:
 	echo "insecure" > ~/.curlrc
 	echo "defscrollback 50000" > ~/.screenrc
 	echo "check_certificate = off" > ~/.wgetrc
+	sudo ln -sf ~/maintain/main/unix_bin/sscp /usr/local/bin/
