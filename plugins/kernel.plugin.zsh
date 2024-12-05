@@ -192,3 +192,22 @@ _k_completions() {
 }
 
 compdef _k_completions k
+
+# dtb -- device-tree-compiler
+function dtc2s() {
+    local src=$1
+    local dst="${2:-$1.dts}"  # usr arg2 first, or $1.dts
+    echo $src "=>" $dst
+    dtc -I dtb -O dts -o $dst $src
+}
+function dtc2b() {
+    local src=$1
+    local dst="${2:-$(basename $1 .dts)}"
+    echo $src "=>" $dst
+    dtc -I dts -O dtb -o $dst $src
+}
+function vimdtb() {
+    dtc2s $1
+    vim $1.dts
+    dtc2b $1.dts
+}
