@@ -118,11 +118,20 @@ function k() {
                     sudo bash -c "echo $1 > $trace_home/current_tracer"     # function
                     sudo bash -c "echo $2 > $trace_home/set_ftrace_filter"  # function name
                     ;;
+                cat)
+                    sudo cat $trace_home/trace
+                    ;;
+                st)
+                    sudo bash -c "echo 1 > $trace_home/tracing_on"
+                    ;;
+                ed)
+                    sudo bash -c "echo 0 > $trace_home/tracing_on"
+                    ;;
                 run)
                     shift 2
-                    sudo bash -c "echo 1 > $trace_home/tracing_on"
+                    k trace st
                     $@
-                    sudo bash -c "echo 0 > $trace_home/tracing_on"
+                    k trace ed
                     ;;
                 info)
                     echo $trace_home/trace
@@ -157,10 +166,13 @@ _k_completions() {
     )
 
     tracesubcmds=(
-        'clean'
+        'clean:clean trace'
         'set:set trace type and name'
+        'cat:cat trace result'
         'run:traceOn; run sth; traceOff'
-        'info'
+        'info:echo some info'
+        'st:start trace'
+        'ed:end trace'
     )
 
     if (( CURRENT == 2 )); then
