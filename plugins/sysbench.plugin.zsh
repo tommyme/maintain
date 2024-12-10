@@ -125,6 +125,19 @@ sb-mysql-preheat() {
     eval "$(_sb_mysql_preheat_cmd) $profile prewarm"
 }
 
+shutdownMysql() {
+    mysqladmin -u root shutdown
+    while true; do
+        count=$(ps aux | grep -c '[m]ysqld' | wc -l) 
+        if [ "$count" -eq 0 ]; then
+            echo "mysqld stoped."
+            break
+        fi
+        echo "mysqld still running..."
+        sleep 2
+    done
+}
+
 # Redis benchmark function
 sb-redis() {
     local rounds=${1:-1}
