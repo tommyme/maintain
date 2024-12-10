@@ -128,7 +128,7 @@ sb-mysql-preheat() {
 shutdownMysql() {
     mysqladmin -u root shutdown
     while true; do
-        count=$(ps aux | grep -c '[m]ysqld' | wc -l) 
+        count=$(ps aux | grep -c '[m]ysqld') 
         if [ "$count" -eq 0 ]; then
             echo "mysqld stoped."
             break
