@@ -129,5 +129,6 @@
   },
   "accessibility.signals.diffLineModified": {
     "sound": "off"
-  }
+  },
+  "window.title": "${rootName}"
 }
