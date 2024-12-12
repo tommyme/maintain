@@ -1,0 +1,39 @@
+#!/bin/bash
+
+# super scp
+
+default_port=22
+
+if [ "$#" -lt 2 ] || [ "$#" -gt 3 ]; then
+    echo "usage: $0 <user> <host> [port]"
+    exit 1
+fi
+
+user=$1
+host=$2
+
+if [ "$#" -eq 3 ]; then
+    port=$3
+else
+    port=$default_port
+fi
+
+if [ "$user" == "root" ]; then
+    home_dir="/root"
+else
+    home_dir="/home/$user"
+fi
+
+if [ ! -f ~/.ssh/id_rsa ]; then
+    echo "id_rsa not found, generate one"
+    ssh-keygen -t rsa -b 4096 -C "your_email@example.com" -N "" -f ~/.ssh/id_rsa
+    echo "SSH generated"
+else
+    echo "found id_rsa"
+fi
+
+# ssh -p "$port" "$user@$host" "mkdir -p $home_dir/.ssh; chmod 700 $home_dir/.ssh"
+cat ~/.ssh/id_rsa.pub | ssh -p "$port" "$user@$host" "cat >> $home_dir/.ssh/authorized_keys; chmod 600 $home_dir/.ssh/authorized_keys"
+# ssh -p "$port" "$user@$host" "chmod 600 $home_dir/.ssh/authorized_keys"
+
+echo "done"

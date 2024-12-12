@@ -103,6 +103,42 @@ function k() {
                     ;;
             esac
             ;;
+        trace)
+            local trace_home="/sys/kernel/debug/tracing"
+            case "$2" in
+                clean)
+                    sudo bash -c "echo nop > $trace_home/current_tracer"
+                    # clean data
+                    sudo bash -c "echo > $trace_home/trace"
+                    # disable event in ftrace submodule
+                    sudo bash -c "echo 0 > $trace_home/events/enable"
+                    ;;
+                set)
+                    shift 2
+                    sudo bash -c "echo $1 > $trace_home/current_tracer"     # function
+                    sudo bash -c "echo $2 > $trace_home/set_ftrace_filter"  # function name
+                    ;;
+                cat)
+                    sudo cat $trace_home/trace
+                    ;;
+                st)
+                    sudo bash -c "echo 1 > $trace_home/tracing_on"
+                    ;;
+                ed)
+                    sudo bash -c "echo 0 > $trace_home/tracing_on"
+                    ;;
+                run)
+                    shift 2
+                    k trace st
+                    $@
+                    k trace ed
+                    ;;
+                info)
+                    echo $trace_home/trace
+                ;;
+
+            esac
+            ;;
         *)
             echo "unknown subcommand"
             ;;
@@ -120,12 +156,23 @@ _k_completions() {
         'run:run sth'
         'exver:sed extraversion in makefile'
         'info:check current linux kernel info'
+        'trace:trace related commands'
     )
 
     setsubcmds=(
         'img'
         'rootfs'
         'arch'
+    )
+
+    tracesubcmds=(
+        'clean:clean trace'
+        'set:set trace type and name'
+        'cat:cat trace result'
+        'run:traceOn; run sth; traceOff'
+        'info:echo some info'
+        'st:start trace'
+        'ed:end trace'
     )
 
     if (( CURRENT == 2 )); then
@@ -135,19 +182,44 @@ _k_completions() {
             set)
                 _describe 'set-sub-command' setsubcmds
                 ;;
+            trace)
+                _describe 'trace-sub-command' tracesubcmds
+                ;;
         esac
     elif (( CURRENT == 4 )); then
-        case "$words[3]" in
-            arch)
+        case "$words[2]-$words[3]" in
+            set-arch)
                 local -a arch
                 arch=("arm64" "arm")
                 _describe 'architecture' arch
                 ;;
-            img)
+            set-img)
                 compadd $(ls "$PWD")
+                ;;
+            trace-set)
+                compadd $(sudo bash -c "cat /sys/kernel/debug/tracing/available_tracers")
                 ;;
         esac
     fi
 }
 
 compdef _k_completions k
+
+# dtb -- device-tree-compiler
+function dtc2s() {
+    local src=$1
+    local dst="${2:-$1.dts}"  # usr arg2 first, or $1.dts
+    echo $src "=>" $dst
+    dtc -I dtb -O dts -o $dst $src
+}
+function dtc2b() {
+    local src=$1
+    local dst="${2:-$(basename $1 .dts)}"
+    echo $src "=>" $dst
+    dtc -I dts -O dtb -o $dst $src
+}
+function vimdtb() {
+    dtc2s $1
+    vim $1.dts
+    dtc2b $1.dts
+}

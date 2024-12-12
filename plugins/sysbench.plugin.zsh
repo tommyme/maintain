@@ -125,6 +125,19 @@ sb-mysql-preheat() {
     eval "$(_sb_mysql_preheat_cmd) $profile prewarm"
 }
 
+shutdownMysql() {
+    mysqladmin -u root shutdown
+    while true; do
+        count=$(ps aux | grep -c '[m]ysqld') 
+        if [ "$count" -eq 0 ]; then
+            echo "mysqld stoped."
+            break
+        fi
+        echo "mysqld still running..."
+        sleep 2
+    done
+}
+
 # Redis benchmark function
 sb-redis() {
     local rounds=${1:-1}
@@ -140,11 +153,14 @@ sb-redis() {
 
 # Format Redis CSV output
 sb-redis-fmtcsv() {
-    if [[ ! -f $1 ]]; then
-        echo "Error: File not found"
-        return 1
-    fi
+    for arg in "$@"; do
+        if [[ ! -f $arg ]]; then
+            echo "Error: File $arg not found"
+            return 1
+        fi
+    done
 
+    for arg in "$@"; do
     awk -F',' '
     BEGIN {
         order[1] = "\"Clients\""
@@ -160,7 +176,8 @@ sb-redis-fmtcsv() {
             print key substr(data[key], 1)
         }
     }
-    ' "$1"
+    ' "$arg"
+    done
 }
 
 # Completion function for MySQL commands
