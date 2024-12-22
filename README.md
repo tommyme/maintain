@@ -5,6 +5,17 @@
 - make install
 - make ...
 
+## nvim
+[check releases here](https://github.com/neovim/neovim/releases)
+
+```shell
+# x86-64
+curl -LO https://github.com/neovim/neovim/releases/latest/download/nvim-linux64.tar.gz
+sudo rm -rf /opt/nvim
+sudo tar -C /opt -xzf nvim-linux64.tar.gz
+sudo ln -sf /opt/nvim-linux64/bin/nvim /usr/bin/nvim
+```
+
 ## 写的一些小技巧
 
 - wsl git
