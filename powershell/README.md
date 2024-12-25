@@ -15,7 +15,7 @@ irm get.scoop.sh | iex
 
 ```powershell
 # install some package
-scoop install curl sudo jq neovim gcc fzf starship https://github.com/JanDeDobbeleer/oh-my-posh/releases/latest/download/oh-my-posh.json
+scoop install curl sudo jq neovim gcc fzf zoxide starship https://github.com/JanDeDobbeleer/oh-my-posh/releases/latest/download/oh-my-posh.json
 # or less package
 scoop install sudo neovim starship https://github.com/JanDeDobbeleer/oh-my-posh/releases/latest/download/oh-my-posh.json
 ```
@@ -24,7 +24,6 @@ scoop install sudo neovim starship https://github.com/JanDeDobbeleer/oh-my-posh/
 Install-Module posh-git -Scope CurrentUser -Force
 Install-Module -Name Terminal-Icons -Repository PSGallery -Force
 Install-Module -Name PSReadLine -AllowPrerelease -Scope CurrentUser -Force -SkipPublisherCheck
-Install-Module -Name Z -Force
 Install-Module -Name PSFzf -Scope CurrentUser -Force
 Install-Module -Name Recycle
 ```

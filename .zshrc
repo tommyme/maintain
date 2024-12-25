@@ -12,7 +12,12 @@ export GOPROXY=https://goproxy.io
 # vscode
 alias codex="code --disable-extensions"
 
-export EDITOR=vim     
+if command -v nvim &> /dev/null
+then
+    export EDITOR=nvim
+else
+    export EDITOR=vim
+fi
 # used for: 
 # ipython 
 # terminal ^x ^e
@@ -101,7 +106,6 @@ plugins+=(
     sudo
     zsh-autosuggestions
     zsh-syntax-highlighting
-    autojump
     you-should-use
     docker
     docker-compose
@@ -123,12 +127,7 @@ plugins+=(
 DISABLE_AUTO_UPDATE=true
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="bg=cyan,bold,underline"
 ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE=50
-export NNN_PLUG='f:finder;o:fzopen;p:mocq;d:diffs;t:nmount;v:imgview'
-export CHATGPT_HOME=~/.config/chatgpt
 
-
-
-[[ -s $HOME/.autojump/etc/profile.d/autojump.sh ]] && source $HOME/.autojump/etc/profile.d/autojump.sh
 autoload -U compinit && compinit -u
 source $ZSH/oh-my-zsh.sh
 # . "$HOME/.acme.sh/acme.sh.env"
@@ -163,10 +162,6 @@ function nvm_init(){
     # <<< nvm initialize <<<
 }
 conda_init; nvm_init
-# tabby sftp support
-precmd () { 
-    echo -n "\x1b]1337;CurrentDir=$(pwd)\x07" 
-}
 
 export PNPM_HOME="$HOME/Library/pnpm"
 export PATH="$PNPM_HOME:$PATH"
@@ -185,3 +180,6 @@ _o() {
 if [[ "$(basename -- ${(%):-%x})" != "_o" ]]; then
   compdef _o o
 fi
+
+eval "$(zoxide init zsh)"
+alias j=z
