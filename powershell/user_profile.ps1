@@ -289,6 +289,7 @@ function monitor-close {
   ControlMyMonitor.exe /SetValue Primary D6 5
 }
 
+# yazi
 function y {
     $tmp = [System.IO.Path]::GetTempFileName()
     yazi $args --cwd-file="$tmp"
@@ -298,3 +299,6 @@ function y {
     }
     Remove-Item -Path $tmp
 }
+
+# zoxide
+Invoke-Expression (& { (zoxide init powershell | Out-String) })
