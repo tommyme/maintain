@@ -15,8 +15,9 @@ compdef _set_arch_completions set-arch
 
 
 function set-kernel-img() {
-    if [[ -f "$1/arch/$kernel_arch/boot/Image" ]]; then
-        export kernel_img="arch/$kernel_arch/boot/Image"
+    local path=$(realpath "$1/arch/$kernel_arch/boot/Image")
+    if [[ -f $path ]]; then
+        export kernel_img=$path
         echo "Kernel image set to $kernel_img"
     else
         echo "Kernel image not found for architecture $kernel_arch"
