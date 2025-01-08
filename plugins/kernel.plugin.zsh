@@ -15,15 +15,24 @@ compdef _set_arch_completions set-arch
 
 
 function set-kernel-img() {
-    local path=$(realpath "$1/arch/$kernel_arch/boot/Image")
-    if [[ -f $path ]]; then
-        export kernel_img=$path
+    local _path=$(realpath "$1/arch/$kernel_arch/boot/Image")
+    if [[ -f $_path ]]; then
+        export kernel_img=$_path
         echo "Kernel image set to $kernel_img"
     else
         echo "Kernel image not found for architecture $kernel_arch"
     fi
 }
 
+function set-kernel-rootfs() {
+    local _path=$(realpath "$1")
+    if [[ -f $_path ]]; then
+        export kernel_rootfs=$_path
+        echo "Kernel rootfs set to $kernel_rootfs"
+    else
+        echo "Kernel rootfs not found $kernel_rootfs"
+    fi
+}
 
 function get-toolchain() {
     case $kernel_arch in
@@ -61,7 +70,8 @@ function k() {
                     set-kernel-img $@
                     ;;
                 rootfs)
-                    echo "setting rootfs"
+                    shift 2
+                    set-kernel-rootfs $@
                     ;;
                 arch)
                     shift 2
@@ -140,6 +150,26 @@ function k() {
 
             esac
             ;;
+        rootfs)
+            case "$2" in
+                mnt)
+                    shift 2
+                    local _path=$kernel_rootfs
+                    local dst=$(dirname $_path)/mount_$(basename $_path)
+                    local filename=$(basename $_path)
+                    local type="${filename##*.}"
+                    echo "type: $type; path: $_path; dst: $dst"
+                    sudo mkdir -p $dst
+                    sudo mount -t $type $_path $dst
+                    ;;
+                umt)
+                    shift 2
+                    local _path=$kernel_rootfs
+                    local dst=$(dirname $_path)/mount_$(basename $_path)
+                    sudo umount $dst
+                    ;;
+            esac
+            ;;
         *)
             echo "unknown subcommand"
             ;;
@@ -158,12 +188,18 @@ _k_completions() {
         'exver:sed extraversion in makefile'
         'info:check current linux kernel info'
         'trace:trace related commands'
+        'rootfs:mnt/umt rootfs'
     )
 
     setsubcmds=(
         'img'
         'rootfs'
         'arch'
+    )
+
+    rootfssubcmds=(
+        'mnt'
+        'umt'
     )
 
     tracesubcmds=(
@@ -185,6 +221,9 @@ _k_completions() {
                 ;;
             trace)
                 _describe 'trace-sub-command' tracesubcmds
+                ;;
+            rootfs)
+                _describe 'rootfs-sub-command' rootfssubcmds
                 ;;
         esac
     elif (( CURRENT == 4 )); then
