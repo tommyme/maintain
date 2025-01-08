@@ -1,23 +1,25 @@
-export kernel_img=""
-export kernel_rootfs=""
-export kernel_arch="arm64"
-
-function set-arch() {
+function set-kernel-arch() {
     export kernel_arch=$1
+    push_lvar kernel_arch $1
 }
+
+if [ -z "$xxx" ]; then
+    set-kernel-arch arm64
+fi
 
 function _set_arch_completions() {
     local -a arch
     arch=("arm64" "arm")
     _describe 'architecture' arch
 }
-compdef _set_arch_completions set-arch
+compdef _set_arch_completions set-kernel-arch
 
 
 function set-kernel-img() {
     local _path=$(realpath "$1/arch/$kernel_arch/boot/Image")
     if [[ -f $_path ]]; then
         export kernel_img=$_path
+        push_lvar kernel_img $_path
         echo "Kernel image set to $kernel_img"
     else
         echo "Kernel image not found for architecture $kernel_arch"
@@ -28,6 +30,7 @@ function set-kernel-rootfs() {
     local _path=$(realpath "$1")
     if [[ -f $_path ]]; then
         export kernel_rootfs=$_path
+        push_lvar kernel_rootfs $_path
         echo "Kernel rootfs set to $kernel_rootfs"
     else
         echo "Kernel rootfs not found $kernel_rootfs"
@@ -75,7 +78,7 @@ function k() {
                     ;;
                 arch)
                     shift 2
-                    set-arch $@
+                    set-kernel-arch $@
                     ;;
                 *)
                     echo "etc"
@@ -151,22 +154,25 @@ function k() {
             esac
             ;;
         rootfs)
+            local _path=$kernel_rootfs
+            local dst=$(dirname $_path)/mount_$(basename $_path)
+            local filename=$(basename $_path)
+            local type="${filename##*.}"
             case "$2" in
                 mnt)
                     shift 2
-                    local _path=$kernel_rootfs
-                    local dst=$(dirname $_path)/mount_$(basename $_path)
-                    local filename=$(basename $_path)
-                    local type="${filename##*.}"
                     echo "type: $type; path: $_path; dst: $dst"
                     sudo mkdir -p $dst
                     sudo mount -t $type $_path $dst
                     ;;
                 umt)
                     shift 2
-                    local _path=$kernel_rootfs
-                    local dst=$(dirname $_path)/mount_$(basename $_path)
                     sudo umount $dst
+                    ;;
+                push)
+                    shift 2
+                    echo "copy: $@ -> $dst"
+                    sudo cp -r $@ $dst
                     ;;
             esac
             ;;
@@ -200,6 +206,7 @@ _k_completions() {
     rootfssubcmds=(
         'mnt'
         'umt'
+        'push'
     )
 
     tracesubcmds=(
@@ -228,13 +235,19 @@ _k_completions() {
         esac
     elif (( CURRENT == 4 )); then
         case "$words[2]-$words[3]" in
-            set-arch)
+            set-kernel-arch)
                 local -a arch
                 arch=("arm64" "arm")
                 _describe 'architecture' arch
                 ;;
             set-img)
-                compadd $(ls "$PWD")
+                _files
+                ;;
+            set-rootfs)
+                _files
+                ;;
+            rootfs-push)
+                _files
                 ;;
             trace-set)
                 compadd $(sudo bash -c "cat /sys/kernel/debug/tracing/available_tracers")

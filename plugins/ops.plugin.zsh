@@ -80,3 +80,50 @@ function y() {
 	fi
 	rm -f -- "$tmp"
 }
+
+LONGTERM_VAR_STORAGE_PATH="$(cd "$(dirname "$0")" && pwd)/store.zsh"
+
+function push_lvar() {
+    # push longterm var to storage
+    local name=$1
+    local value=$2
+
+    if grep -q "export $name=" "$LONGTERM_VAR_STORAGE_PATH"; then
+        sed -i "/export $name=/d" "$LONGTERM_VAR_STORAGE_PATH"
+    fi
+    value_escaped=$(echo "$value" | sed 's/"/\\"/g')
+    echo "export $name=\"$value_escaped\"" >> "$LONGTERM_VAR_STORAGE_PATH"
+}
+
+
+if [ -e $LONGTERM_VAR_STORAGE_PATH ]; then
+    source $LONGTERM_VAR_STORAGE_PATH
+else
+    touch $LONGTERM_VAR_STORAGE_PATH
+fi
+
+function install-zoxide() {
+    local arch=$(uname -m)
+    if [ "$arch" = "x86_64" ]; then
+        curl -LO https://github.com/ajeetdsouza/zoxide/releases/download/v0.9.6/zoxide-0.9.6-x86_64-unknown-linux-musl.tar.gz
+    else
+        curl -LO https://github.com/ajeetdsouza/zoxide/releases/download/v0.9.6/zoxide-0.9.6-aarch64-unknown-linux-musl.tar.gz
+    fi
+    x zoxide*
+    mv zoxide*/zoxide $HOME/.local/bin
+    echo "you can use command to import history: zoxide import --from=autojump $HOME/.local/share/autojump/autojump.txt"
+}
+
+function install-fzf() {
+    local arch=$(uname -m)
+    if [ "$arch" = "x86_64" ]; then
+        curl -LO https://github.com/junegunn/fzf/releases/download/v0.57.0/fzf-0.57.0-linux_amd64.tar.gz
+    else
+        curl -LO https://github.com/junegunn/fzf/releases/download/v0.57.0/fzf-0.57.0-linux_arm64.tar.gz
+    fi
+    x fzf*
+    curl -LO https://raw.githubusercontent.com/junegunn/fzf/refs/heads/master/bin/fzf-preview.sh
+    curl -LO https://raw.githubusercontent.com/junegunn/fzf/refs/heads/master/bin/fzf-tmux
+    chmod a+x fzf-preview.sh fzf-tmux
+    mv fzf fzf-preview.sh fzf-tmux $HOME/.local/bin
+}
