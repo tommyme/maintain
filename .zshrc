@@ -111,19 +111,18 @@ plugins+=(
     docker
     docker-compose
     web-search
-    kernel
 )
 
 plugins+=(
+    ops   # 一些比较基础、通用的运维操作
     dk    # docker
     iot   # iot
     ctf   # ctf
-    ops   # 一些比较基础、通用的运维操作
     proxy # 代理相关
-    leecode # leecode 笔记快速创建
     android
     sysbench
     custom
+    kernel
 )
 DISABLE_AUTO_UPDATE=true
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="bg=cyan,bold,underline"
@@ -182,5 +181,16 @@ if [[ "$(basename -- ${(%):-%x})" != "_o" ]]; then
   compdef _o o
 fi
 
-eval "$(zoxide init zsh)"
+# zoxide import --from=autojump $HOME/.local/share/autojump/autojump.txt
+if command -v zoxide > /dev/null; then
+    eval "$(zoxide init zsh)"
+fi
 alias j=z
+
+if command -v thefuck > /dev/null; then
+    eval $(thefuck --alias)
+fi
+
+if command -v fzf > /dev/null; then
+    source <(fzf --zsh)
+fi

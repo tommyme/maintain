@@ -7,7 +7,7 @@ for file in $SCRIPT_DIR/*; do
         continue
     fi
 
-    plugin_name="${file:t:r}"
+    plugin_name="$(basename $file .plugin.zsh)"
 
     if [[ -d "${root}/${plugin_name}" ]]; then
         echo "${plugin_name} exists"
