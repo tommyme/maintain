@@ -16,7 +16,12 @@ compdef _set_arch_completions set-kernel-arch
 
 
 function set-kernel-img() {
-    local _path=$(realpath "$1/arch/$kernel_arch/boot/Image")
+    if [[ -d "$1" ]]; then  # is dir, try to find Image
+        local _path=$(realpath "$1/arch/$kernel_arch/boot/Image")
+    else    # is file
+        local _path=$(realpath "$1")
+    fi
+
     if [[ -f $_path ]]; then
         export kernel_img=$_path
         push_lvar kernel_img $_path
@@ -61,6 +66,14 @@ function copy2img() {
     echo "copy done, enter bash ..."
     sudo bash
     sudo umount mount_rootfs
+}
+
+function k-rootfs-mnt-ext4() {
+    sudo mount -t ext4 $1 $2
+}
+
+function k-rootfs-umt-ext4() {
+    sudo umount $1
 }
 
 # 定义命令函数
@@ -163,16 +176,29 @@ function k() {
                     shift 2
                     echo "type: $type; path: $_path; dst: $dst"
                     sudo mkdir -p $dst
-                    sudo mount -t $type $_path $dst
+                    if command -v k-rootfs-mnt-$type &> /dev/null
+                    then
+                        k-rootfs-mnt-$type $_path $dst $@
+                    else
+                        echo "\e[31mk-rootfs-mnt-$type\e[0m not found!"
+                    fi
                     ;;
                 umt)
                     shift 2
-                    sudo umount $dst
+                    if command -v k-rootfs-umt-$type &> /dev/null
+                    then
+                        k-rootfs-umt-$type $dst $@
+                    else
+                        echo "\e[31mk-rootfs-umt-$type\e[0m not found!"
+                    fi
                     ;;
                 push)
                     shift 2
                     echo "copy: $@ -> $dst"
                     sudo cp -r $@ $dst
+                    ;;
+                *)
+                    echo "command not found"
                     ;;
             esac
             ;;
