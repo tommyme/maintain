@@ -10,6 +10,7 @@ export GOPATH="$HOME/gopath"
 export GOSELF="$GOPATH/src/github.com/$GITHUB_USER" 
 export GOPROXY=https://goproxy.io
 
+mkdir -p $HOME/.local/bin
 # vscode
 alias codex="code --disable-extensions"
 

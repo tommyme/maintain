@@ -7,7 +7,6 @@ call vundle#begin()
 
 " let Vundle manage Vundle, required
 Plugin 'VundleVim/Vundle.vim'
-Plugin 'Valloric/YouCompleteMe'
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
 filetype plugin indent on    " required
@@ -50,6 +49,16 @@ Plug 'junegunn/fzf.vim'
 " tree view for files
 Plug 'preservim/nerdtree', { 'on': 'NERDTreeToggle' }
 
+Plug 'liuchengxu/vim-which-key'
+
+" On-demand lazy load
+Plug 'liuchengxu/vim-which-key', { 'on': ['WhichKey', 'WhichKey!'] }
+Plug 'preservim/nerdcommenter'
+let g:NERDSpaceDelims = 1
+" To register the descriptions when using the on-demand load feature,
+" use the autocmd hook to call which_key#register(), e.g., register for the Space key:
+" autocmd! User vim-which-key call which_key#register('<Space>', 'g:which_key_map')
+
 " Call plug#end to update &runtimepath and initialize the plugin system.
 " - It automatically executes `filetype plugin indent on` and `syntax enable`
 call plug#end()
@@ -64,3 +73,31 @@ let mapleader = "\<space>"
 nnoremap <leader>p :Commands<CR>
 nnoremap <leader>o :Files<CR>
 nnoremap ; :
+nnoremap <leader>sv :source ~/.vimrc<CR>
+nnoremap <leader>si :PlugInstall<CR>
+nnoremap <leader>w :w<CR>
+nnoremap <leader>q :q<CR>
+let g:mapleader = "\<Space>"
+let g:maplocalleader = ','
+set timeoutlen=250
+nnoremap <silent> <leader>      :<c-u>WhichKey '<Space>'<CR>
+nnoremap <silent> <localleader> :<c-u>WhichKey  ','<CR>
+nnoremap <M-Left> :normal! <C-o><CR>
+nnoremap <M-Right> :normal! <C-i><CR>
+:set list
+:set listchars=tab:>-,space:·,trail:#
+
+set cursorcolumn
+set cursorline
+set encoding=utf-8
+set backspace=indent,eol,start  " more powerful backspacing for vim 9
+
+" config cursor color for window terminal
+if &term =~ "xterm"
+    " INSERT mode
+    let &t_SI = "\<Esc>[2 q" . "\<Esc>]12;green\x7"
+    " REPLACE mode
+    let &t_SR = "\<Esc>[2 q" . "\<Esc>]12;red\x7"
+    " NORMAL mode
+    let &t_EI = "\<Esc>[2 q" . "\<Esc>]12;white\x7"
+endif
