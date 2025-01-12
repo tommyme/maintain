@@ -7,6 +7,7 @@ zsh_plugins:
 ipython:
 	./main/ipython_profile_ybw/install.sh
 vim:
+	curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 	ln -sf ~/maintain/.vimrc ~/.vimrc
 tmux:
 	./main/tmux/install.sh
