@@ -8,6 +8,8 @@
 ## nvim
 [check releases here](https://github.com/neovim/neovim/releases)
 
+## fzf
+use `C-t` or `**` to complete.
 ```shell
 # x86-64
 curl -LO https://github.com/neovim/neovim/releases/latest/download/nvim-linux64.tar.gz
