@@ -194,8 +194,16 @@ function k() {
                     ;;
                 push)
                     shift 2
+                    if ! mount | grep -q "$dst"; then
+                        echo "\e[32mauto mount...\e[0m"
+                        k rootfs mnt
+                    fi
                     echo "copy: $@ -> $dst"
                     sudo cp -r $@ $dst
+                    ;;
+                cd)
+                    shift 2
+                    cd $dst
                     ;;
                 *)
                     echo "command not found"
@@ -233,6 +241,7 @@ _k_completions() {
         'mnt'
         'umt'
         'push'
+        'cd'
     )
 
     tracesubcmds=(
