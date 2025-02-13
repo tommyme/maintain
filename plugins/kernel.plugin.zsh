@@ -68,7 +68,21 @@ function copy2img() {
     sudo umount mount_rootfs
 }
 
+function k-rootfs-mnt-cpio.gz() {
+    mkdir -p $dst
+    gzip -dc $_path | cpio -idmv -D $dst
+}
+
+function k-rootfs-umt-cpio.gz() {
+    cd $1
+    find . | cpio -o -H newc > ${_path%.gz}
+    gzip ${_path%.gz}
+    rm -rf $1/*
+    popd
+}
+
 function k-rootfs-mnt-ext4() {
+    sudo mkdir -p $2
     sudo mount -t ext4 $1 $2
 }
 
@@ -170,7 +184,7 @@ function k() {
             local _path=$kernel_rootfs
             local dst=$(dirname $_path)/mount_$(basename $_path)
             local filename=$(basename $_path)
-            local type="${filename##*.}"
+            local type="${filename#*.}"
             case "$2" in
                 mnt)
                     shift 2
