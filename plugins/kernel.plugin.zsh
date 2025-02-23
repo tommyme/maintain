@@ -23,6 +23,7 @@ function set-kernel-img() {
     fi
 
     if [[ -f $_path ]]; then
+        file $_path
         export kernel_img=$_path
         push_lvar kernel_img $_path
         echo "Kernel image set to $kernel_img"
@@ -34,6 +35,7 @@ function set-kernel-img() {
 function set-kernel-rootfs() {
     local _path=$(realpath "$1")
     if [[ -f $_path ]]; then
+        file $_path
         export kernel_rootfs=$_path
         push_lvar kernel_rootfs $_path
         echo "Kernel rootfs set to $kernel_rootfs"
@@ -56,7 +58,10 @@ function get-toolchain() {
     esac
 }
 
-alias make-arch="make ARCH=\$kernel_arch CROSS_COMPILE=\$(get-toolchain) -j \$(nproc)"
+function make-arch() {
+    make ARCH=$kernel_arch CROSS_COMPILE=$(get-toolchain) -j $(nproc) $@
+}
+
 alias amend="git commit --amend"
 
 function copy2img() {
@@ -215,6 +220,12 @@ function k() {
                     echo "copy: $@ -> $dst"
                     sudo cp -r $@ $dst
                     ;;
+                mpu)
+                    # mount push umt
+                    shift 2
+                    k rootfs push $@
+                    k rootfs umt
+                    ;;
                 cd)
                     shift 2
                     cd $dst
@@ -255,6 +266,7 @@ _k_completions() {
         'mnt'
         'umt'
         'push'
+        'mpu'
         'cd'
     )
 
@@ -307,6 +319,47 @@ _k_completions() {
 
 compdef _k_completions k
 
+_make_arch_completions() {
+    # 定义存储 .ko 文件的数组
+    local -a completions
+
+    # 检查当前目录是否是 Git 仓库
+    if ls $PWD/.git &>/dev/null; then
+        # 如果是 Git 仓库，获取 git status 的文件列表
+        local -a git_files
+        git_files=(${(f)"$(git status --porcelain=v1 -- drivers | awk '{print $2}')"})
+        
+        # 遍历 git_files，筛选文件夹和 .ko 文件
+        for file in $git_files; do
+            if [[ -d $file ]]; then
+                # 如果是文件夹，查找其中的 .ko 文件
+                local -a ko_files
+                ko_files=(${(f)"$(find $file -type f -name '*.ko')"})
+                completions+=($ko_files)
+            elif [[ -f $file ]]; then
+                # 如果是普通文件，跳过
+                continue
+            fi
+        done
+    fi
+
+    # 定义固定的子命令
+    local -a subcmds=(
+        'menuconfig'
+        'Image'
+        'modules_install'
+        'modules'
+    )
+
+    # 合并动态选项和固定选项
+    _describe 'sub-command' subcmds
+    if (( ${#completions[@]} > 0 )); then
+        _values 'ko files' $completions
+    fi
+}
+
+
+
 # dtb -- device-tree-compiler
 function dtc2s() {
     local src=$1
@@ -325,3 +378,5 @@ function vimdtb() {
     vim $1.dts
     dtc2b $1.dts
 }
+
+compdef _make_arch_completions make-arch

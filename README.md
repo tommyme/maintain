@@ -1,9 +1,17 @@
 # maintain -- repo maintained frequently
-## quick start
+
+# linux quick start
 - clone repo
 - iu.sh
 - make install
 - make ...
+
+```shell
+install-zoxide
+install-fzf
+```
+
+# etc
 
 ## nvim
 [check releases here](https://github.com/neovim/neovim/releases)

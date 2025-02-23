@@ -1,9 +1,5 @@
-install: theme zsh_plugins
+install: theme zsh_plugins work
 
-theme:
-	ln -sf ~/maintain/misc/*.zsh-theme ~/.oh-my-zsh/themes
-zsh_plugins:
-	python3 scripts/install_plugins.py
 ipython:
 	./main/ipython_profile_ybw/install.sh
 vim:
@@ -12,6 +8,7 @@ vim:
 tmux:
 	./main/tmux/install.sh
 vscode:
+# 使用仓库的vscode配置
 ifeq ($(OS),Windows_NT)
 	@echo "Detected Windows, please use the following command to install manually:"
 	@echo sudo New-Item -ItemType SymbolicLink -Force -Path "$env:USERPROFILE\AppData\Roaming\Code\User\settings.json" -Target "$env:USERPROFILE\maintain\main\vscode\settings.json"
@@ -25,6 +22,12 @@ else
 		@echo "Unknown OS: $(UNAME_S)"
 	endif
 endif
+
+# covered by install
+theme:
+	ln -sf ~/maintain/misc/*.zsh-theme ~/.oh-my-zsh/themes
+zsh_plugins:
+	python3 scripts/install_plugins.py
 work:
 	echo "insecure" > ~/.curlrc
 	echo "defscrollback 50000" > ~/.screenrc
