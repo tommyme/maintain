@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# super scp
+# super scp -- 用来在目标机器上安装公钥 以便更好地scp
 
 default_port=22
 
