@@ -235,6 +235,11 @@ function k() {
                     ;;
             esac
             ;;
+        clangd)
+            echo -e "CompileFlags:\n    Add: --target=aarch64-linux-gnu\n    Remove: -mabi=lp64" > .clangd
+            echo "write to .clangd"
+            echo "you can use ./scripts/clang-tools/gen_compile_commands.py to generate compile_commands.json"
+            ;;
         *)
             echo "unknown subcommand"
             ;;
@@ -254,6 +259,7 @@ _k_completions() {
         'info:check current linux kernel info'
         'trace:trace related commands'
         'rootfs:mnt/umt rootfs'
+        'clangd:write .clangd file'
     )
 
     setsubcmds=(

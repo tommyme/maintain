@@ -1,0 +1,23 @@
+# info registers
+define src
+    source ~/.gdb_cmd
+end
+
+define conn
+    target remote :1234
+end
+
+# 常用指令用法
+define man
+    echo x/<N><SIZE><FMT> <ADDRESS>\n
+    echo SIZE: b/h/w/g -- 1/2/4/8\n
+    echo FMT:\n
+    echo \tx: hex\n
+    echo \td: decimal\n
+    echo \tu: unsigned decimal\n
+    echo \to: octal\n
+    echo \tt: binary\n
+    echo \tf: floating point\n
+    echo \tc: char\n
+    echo \ts: string\n
+end
