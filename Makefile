@@ -7,6 +7,8 @@ vim:
 	ln -sf ~/maintain/.vimrc ~/.vimrc
 tmux:
 	./main/tmux/install.sh
+gdb:
+	./main/gdb/install.sh
 vscode:
 # 使用仓库的vscode配置
 ifeq ($(OS),Windows_NT)
