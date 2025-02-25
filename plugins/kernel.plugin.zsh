@@ -3,7 +3,7 @@ function set-kernel-arch() {
     push_lvar kernel_arch $1
 }
 
-if [ -z "$xxx" ]; then
+if [ -z "$kernel_arch" ]; then
     set-kernel-arch arm64
 fi
 
@@ -47,6 +47,10 @@ function set-kernel-rootfs() {
 function get-toolchain() {
     case $kernel_arch in
         arm64)
+            if uname -a | grep -q aarch64; then
+                echo ""
+                return
+            fi
             echo "aarch64-linux-gnu-"
             ;;
         arm)
