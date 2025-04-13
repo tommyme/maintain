@@ -320,6 +320,9 @@ _k_completions() {
             rootfs-push)
                 _files
                 ;;
+            rootfs-mpu)
+                _files
+                ;;
             trace-set)
                 compadd $(sudo bash -c "cat /sys/kernel/debug/tracing/available_tracers")
                 ;;
