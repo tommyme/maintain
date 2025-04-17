@@ -371,6 +371,16 @@ _make_arch_completions() {
     fi
 }
 
+flame-svg() {
+    # 生成火焰图
+    if [ -z "$FlameGraph" ]; then
+        echo "flame repo: https://github.com/brendangregg/FlameGraph"
+        echo "Error: \$FlameGraph is not set. Please set the path using 'push_lvar FlameGraph <absPath>', then exec zsh."
+        return 1
+    fi
+    $FlameGraph/stackcollapse-perf.pl out.perf > out.folded
+    $FlameGraph/flamegraph.pl out.folded > flamegraph.svg
+}
 
 
 # dtb -- device-tree-compiler
