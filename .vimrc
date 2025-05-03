@@ -36,6 +36,9 @@ call plug#begin()
 " make it colorful
 Plug 'junegunn/seoul256.vim'
 
+" git blame
+Plug 'tpope/vim-fugitive'
+
 " make align easy
 Plug 'junegunn/vim-easy-align'
 
