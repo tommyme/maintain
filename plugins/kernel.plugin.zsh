@@ -125,6 +125,7 @@ function k() {
             echo kernel_img     $kernel_img
             echo kernel_rootfs  $kernel_rootfs
             echo kernel_arch    $kernel_arch
+            echo KCFLAGS        $KCFLAGS
             ;;
         exver)
             shift 1;
