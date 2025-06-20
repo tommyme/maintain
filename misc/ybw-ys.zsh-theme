@@ -55,6 +55,16 @@ virtenv_prompt() {
 
 local exit_code="%(?,,C:%{$fg[red]%}%?%{$reset_color%})"
 
+gitcmt_prompt() {
+	if ls $PWD/.git &>/dev/null; then
+		msg=$(timeout 0.02 git --no-pager log --oneline -1 --format="%H" 2>/dev/null | cut -c 1-12)
+		if [[ -n "$msg" ]]; then
+			echo "%{$terminfo[bold]$fg[green]%}${msg} %{$reset_color%}";
+		fi
+	fi
+}
+local gitcmt_info='$(gitcmt_prompt)'
+
 conda_prompt() {
 	if command -v conda &> /dev/null; then
 		env_name=$(conda info --envs | grep '*' | awk '{print $1}')
@@ -88,7 +98,7 @@ PROMPT="
 %{$terminfo[bold]$fg[blue]%}#%{$reset_color%} \
 %(#,%{$bg[yellow]%}%{$fg[black]%}%n%{$reset_color%},%{$fg[cyan]%}%n) \
 %{$reset_color%}@ \
-%{$fg[green]%}%m \
+${gitcmt_info}\
 %{$reset_color%}in \
 %{$terminfo[bold]$fg[yellow]%}%~%{$reset_color%}\
 ${hg_info}\
