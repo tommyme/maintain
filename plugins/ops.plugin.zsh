@@ -33,6 +33,13 @@ alias ka="sudo killall"
 alias history_fix="mv ~/.zsh_history ~/.zsh_history_bad && strings ~/.zsh_history_bad > ~/.zsh_history && fc -R ~/.zsh_history"
 alias lt="ls -t"
 alias grvv="grv | sed -E 's|ssh://git@([^:]+):[0-9]+/(.+)|https://\1/\2|'"
+alias gamj="git am --reject"
+
+function gcbr() {
+    local remote_br=$(git rev-parse --abbrev-ref --symbolic-full-name @{u})
+    gcb $1 $remote_br
+}
+
 function tarf(){
     local src="$(basename $1).tgz"
     local dst="$1"
