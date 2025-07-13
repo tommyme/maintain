@@ -26,12 +26,18 @@ Set-PSReadLineOption -PredictionViewStyle ListView
 Set-PSReadlineKeyHandler -Key Tab -Function Complete
 Set-PSReadlineKeyHandler -Key Tab -Function MenuComplete
 
-# Measure-Command {   # 109
-#   # Fzf
-#   Import-Module PSFzf
-#   Set-PsFzfOption -PSReadlineChordProvider 'Ctrl+f' -PSReadlineChordReverseHistory 'Ctrl+r'
-# }
-
+# Measure-Command {}
+# psfzf
+Set-PsFzfOption -PSReadlineChordProvider 'Ctrl+t' -PSReadlineChordReverseHistory 'Ctrl+r'
+Set-PsFzfOption -EnableAliasFuzzyEdit
+Set-PsFzfOption -EnableAliasFuzzyKillProcess
+Set-PsFzfOption -EnableAliasFuzzySetEverything
+Set-PsFzfOption -EnableAliasFuzzyFasd
+Set-PsFzfOption -EnableAliasFuzzySetLocation
+Set-PsFzfOption -EnableAliasFuzzyZLocation
+Set-PsFzfOption -EnableAliasFuzzyHistory
+Set-PsFzfOption -EnableAliasFuzzyScoop
+Set-PsFzfOption -EnableAliasFuzzyGitStatus
 
 
 # Alias
@@ -161,6 +167,7 @@ function psh {
   $flag = $false
 
   function judge($path) {
+      # 通过 #!xxxx 判断是一个python脚本
       try {
           $content = Get-Content $path -Raw
       } catch {
@@ -178,6 +185,7 @@ function psh {
         continue
       }
       $pp = Join-Path $p $command
+      echo $pp
       if (Test-Path $pp -PathType Leaf) {
         if (judge $pp) {
             $flag = $true
