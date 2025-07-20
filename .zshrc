@@ -109,10 +109,12 @@ plugins+=(
     zsh-autosuggestions
     zsh-syntax-highlighting
     you-should-use
-    docker
-    docker-compose
     web-search
 )
+
+if command -v docker &>/dev/null; then
+    plugins+=(docker docker-compose)
+fi
 
 plugins+=(
     ops   # 一些比较基础、通用的运维操作
