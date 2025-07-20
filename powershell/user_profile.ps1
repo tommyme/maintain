@@ -308,5 +308,43 @@ function y {
     Remove-Item -Path $tmp
 }
 
+function sscp {
+  # super scp -- 用来在目标机器上安装公钥 以便更好地scp
+  $default_port=22
+  if ($args.Count -lt 2 -or $args.Count -gt 3) {
+      Write-Host "usage: sscp <user> <host> [port]"
+      return
+  }
+
+  $sscp_user=$args[0]
+  $sscp_host=$args[1]
+
+  if ($args.Count -eq 3) {
+      $port=$args[2]
+  } else {
+      $port=$default_port
+  }
+
+  if ($sscp_user -eq "root") {
+      $home_dir="/root"
+  } else {
+      $home_dir="/home/$sscp_user"
+  }
+
+  # test if ssh key exists
+  $local_ssh_dir="$home/.ssh/id_rsa"
+  if (-not (Test-Path -Path $local_ssh_dir)) {
+      Write-Host "id_rsa not found, generating one..."
+      ssh-keygen -t rsa -b 4096 -C "your_email@example.com" -N "" -f $local_ssh_dir
+      Write-Host "SSH key generated at $local_ssh_dir"
+  } else {
+      Write-Host "Found id_rsa at $local_ssh_dir"
+  }
+
+  $pub_key_path="$home/.ssh/id_rsa.pub"
+  $content = Get-Content -Path $pub_key_path -Raw
+  ssh -p $port "$sscp_user@$sscp_host" "mkdir -p $home_dir/.ssh; echo '$content' >> $home_dir/.ssh/authorized_keys; chmod 600 $home_dir/.ssh/authorized_keys"
+}
+
 # zoxide
 Invoke-Expression (& { (zoxide init powershell | Out-String) })
