@@ -72,6 +72,9 @@ Plug 'monkoose/vim9-stargate'
 Plug 'simeji/winresizer'
 Plug 'christoomey/vim-tmux-navigator'
 
+" cscope with fzf
+Plug 'nmaiti/fzf_cscope.vim'
+
 " On-demand lazy load
 Plug 'liuchengxu/vim-which-key', { 'on': ['WhichKey', 'WhichKey!'] }
 let g:NERDSpaceDelims = 1
@@ -167,3 +170,10 @@ augroup ColorColumn
     autocmd FileType gitcommit highlight ColorColumn ctermbg=darkred guibg=#8B0000
 augroup END
 
+" add any cscope database in current directory"
+if filereadable("cscope.out")
+    cs add cscope.out
+"else add the database pointed to by environment variable"
+elseif $CSCOPE_DB != ""
+    cs add $CSCOPE_DB
+endif
