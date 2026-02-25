@@ -44,10 +44,6 @@
         "command": "-command-runner.run"
     },
     {
-        "key": "cmd+n",
-        "command": "explorer.newFile"
-    },
-    {
         "key": "cmd+shift+n",
         "command": "explorer.newFolder"
     },

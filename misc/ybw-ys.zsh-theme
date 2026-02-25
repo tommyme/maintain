@@ -62,7 +62,7 @@ gitcmt_prompt() {
 local gitcmt_info='$(gitcmt_prompt)'
 
 conda_prompt() {
-	if command -v conda &> /dev/null; then
+	if [ -n "$conda_init_complete" ] && command -v conda &> /dev/null; then
 		env_name=$(conda info --envs | grep '*' | awk '{print $1}')
 		echo " %{$terminfo[bold]$fg[green]%}:${env_name}:%{$reset_color%}";
 	fi

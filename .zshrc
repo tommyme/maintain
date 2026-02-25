@@ -140,7 +140,7 @@ function conda_init(){
     # 这里的代码针对于 linux上的miniconda
     # >>> conda initialize >>>
     # !! Contents within this block are managed by 'conda init' !!
-    if [ -d $__conda -a $__conda ]; then
+    if [ -d "$__conda" ] && [ -n "$__conda" ]; then
         __conda_setup="$('$__conda/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
         if [ $? -eq 0 ]; then
             eval "$__conda_setup"
@@ -153,6 +153,7 @@ function conda_init(){
         fi
     fi
     unset __conda_setup
+    conda_init_complete=1
     # <<< conda initialize <<<
 }
 function nvm_init(){
@@ -164,7 +165,7 @@ function nvm_init(){
     fi
     # <<< nvm initialize <<<
 }
-conda_init; nvm_init
+# conda_init; nvm_init
 
 export PNPM_HOME="$HOME/Library/pnpm"
 export PATH="$PNPM_HOME:$PATH"
