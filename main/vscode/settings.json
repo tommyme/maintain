@@ -130,5 +130,6 @@
   "accessibility.signals.diffLineModified": {
     "sound": "off"
   },
-  "window.title": "${rootName}"
+  "window.title": "${rootName}",
+  "workbench.editor.empty.hint": "hidden"
 }
