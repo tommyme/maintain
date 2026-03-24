@@ -93,6 +93,10 @@ bindkey \^U backward-kill-line # bind ctrl u to kill line
 bindkey '^[[H' beginning-of-line # Home
 bindkey '^[[F' end-of-line # End
 
+# Shift+Enter fix for tmux+claude+ghostty extended-keys
+bindkey '\e[13;2u' accept-line
+bindkey '\e[27;2;13~' accept-line
+
 if [ -e "$ZSH/themes/ybw-ys.zsh-theme" ]; then ZSH_THEME="ybw-ys"; else ZSH_THEME="ys"; fi
 plugins+=(
     aliases
