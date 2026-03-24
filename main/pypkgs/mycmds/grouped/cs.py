@@ -71,14 +71,15 @@ def apt(arch, sudo):
 @Command(cs)
 @click.option('-p', '--pnpm', is_flag=True, help="use pnpm")
 def npm(pnpm):
+    name = "pnpm" if pnpm else "npm"
     manager = SourceManager(
-        name="pnpm" if pnpm else "npm",
+        name=name,
         data=[
             "https://registry.npmmirror.com/",
             "https://registry.npmjs.org/"
         ],
-        get_curr=lambda: execContent(f"{manager} config get registry"),
-        set_curr=lambda x: execContent(f"{manager} config set registry {x}"),
+        get_curr=lambda: execContent(f"{name} config get registry"),
+        set_curr=lambda x: execContent(f"{name} config set registry {x}"),
     )
     manager.show_curr()
     manager.ask_switch()
@@ -138,7 +139,7 @@ def docker():
         with open(path, 'r') as f:
             conf:dict = json.load(f)
         if regs:=conf.get("registry-mirrors"):
-            if prompt("current regitstry: " + regs + "reset it?"):
+            if prompt(f"current registry: {regs}, reset it?"):
                 data = json.loads(reset_content)
                 data = json.dumps(data, indent=2)
                 prompt(data)

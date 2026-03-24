@@ -7,6 +7,8 @@ vim:
 	ln -sf ~/maintain/.vimrc ~/.vimrc
 tmux:
 	./main/tmux/install.sh
+ghostty:
+	./main/ghostty/install.sh
 gdb:
 	./main/gdb/install.sh
 vscode:

@@ -94,5 +94,17 @@
         "key": "ctrl+shift+right",
         "command": "-editor.action.smartSelect.expand",
         "when": "editorTextFocus"
+    },
+    {
+        "key": "f1",
+        "command": "-workbench.action.showCommands"
+    },
+    {
+        "key": "cmd+e",
+        "command": "-actions.findWithSelection"
+    },
+    {
+        "key": "cmd+e",
+        "command": "workbench.files.action.showActiveFileInExplorer"
     }
 ]
