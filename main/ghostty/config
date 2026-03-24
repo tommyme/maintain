@@ -1,0 +1,50 @@
+# Ghostty Configuration
+
+# === 字体 ===
+font-family = "Hack NF"
+font-thicken = true
+adjust-cell-height = 2
+
+# === 主题 ===
+# 跟随系统自动切换明暗主题
+# light:Catppuccin Latte,
+theme = Catppuccin Mocha
+
+# === 窗口 ===
+background-opacity = 0.7
+background-blur-radius = 20
+macos-titlebar-style = transparent
+window-padding-x = 10
+window-padding-y = 8
+window-save-state = always
+window-theme = auto
+
+# === 光标 ===
+cursor-style = bar
+cursor-style-blink = true
+cursor-opacity = 0.8
+
+# === 鼠标 ===
+mouse-hide-while-typing = true
+copy-on-select = clipboard
+
+# === 下拉终端（Quake 风格） ===
+quick-terminal-position = top
+quick-terminal-screen = mouse
+quick-terminal-autohide = true
+quick-terminal-animation-duration = 0.15
+
+# === 安全 ===
+clipboard-paste-protection = true
+clipboard-paste-bracketed-safe = true
+
+# === Shell 集成 ===
+shell-integration = detect
+
+# === 快捷键 ===
+keybind = cmd+p=toggle_command_palette
+keybind = global:cmd+backquote=toggle_quick_terminal
+
+
+# === 性能 ===
+scrollback-limit = 25000000

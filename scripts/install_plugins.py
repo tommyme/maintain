@@ -1,17 +1,44 @@
 import os
+import sys
+import shutil
+
 cwd = f"{os.getenv('HOME')}/maintain/plugins"
 root = f"{os.getenv('HOME')}/.oh-my-zsh/plugins"
-for file in os.listdir(cwd):
-    if not file.endswith(".plugin.zsh"):
-        continue
-    plugin_name = file.split(".")[0]
-    if os.path.exists(f"{root}/{plugin_name}"):
-        print(f"dir-`{plugin_name}` exists") # 有可能你写的插件和已经有的插件重名了
-    else:
-        # 如果不存在，创建文件夹，建立链接
-        os.mkdir(f"{root}/{plugin_name}")
-        os.system(f"ln -s {cwd}/{file} {root}/{plugin_name}/{file}")
 
+def install():
+    for file in os.listdir(cwd):
+        if not file.endswith(".plugin.zsh"):
+            continue
+        plugin_name = file.split(".")[0]
+        src = os.path.join(cwd, file)
+        dst_dir = os.path.join(root, plugin_name)
+        dst = os.path.join(dst_dir, file)
+        if not os.path.isfile(src):
+            print(f"skip `{file}`: source not found")
+            continue
+        if os.path.exists(dst_dir):
+            print(f"skip `{plugin_name}`: already exists in oh-my-zsh/plugins")
+        else:
+            os.mkdir(dst_dir)
+            try:
+                os.symlink(src, dst)
+                print(f"installed `{plugin_name}`")
+            except OSError as e:
+                print(f"error linking `{plugin_name}`: {e}")
 
-# uninstall
-# "rm -r " + " ".join([i.split(".")[0] for i in os.listdir() if i.endswith("in.zsh")])
+def uninstall():
+    for file in os.listdir(cwd):
+        if not file.endswith(".plugin.zsh"):
+            continue
+        plugin_name = file.split(".")[0]
+        dst_dir = os.path.join(root, plugin_name)
+        if os.path.exists(dst_dir):
+            shutil.rmtree(dst_dir)
+            print(f"removed `{plugin_name}`")
+        else:
+            print(f"skip `{plugin_name}`: not installed")
+
+if "--uninstall" in sys.argv:
+    uninstall()
+else:
+    install()

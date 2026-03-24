@@ -34,11 +34,9 @@ export VCPKG_ROOT="$HOME/vcpkg"
 alias kdes="kubectl --insecure-skip-tls-verify describe"
 alias nebula="sudo ~/apps/nebula/nebula -config /etc/nebula/config.yaml > ~/log/nebula.log 2>&1 &"
 alias nebula_restart="sudo kill -9 \$(pgrep nebula); nebula"
-alias maintain="cd ~/maintain && clash && pon && sleep 0.3 && git pull && ka clash && poff && exec zsh"
 alias twrp="fastboot flash recovery"
 alias hhh="hexo clean && hexo g && hexo s"
 alias wnb="watch -n 1 nbtest"
-alias bat="batcat"
 # pypath
 function pyp() {
     if [ -z "$PYTHONPATH" ]; then
@@ -55,7 +53,6 @@ alias p3="python3"
 alias p3p="python3 -m pip"
 alias p2="python2"
 alias emulator="~/Library/Android/sdk/emulator"
-alias tr="trans"
 alias lo="localhost"
 alias cs="changeSource"
 alias bat="bat --style=plain"
@@ -81,9 +78,9 @@ function clash(){
 UNAME=$(uname -a)
 if [[ $UNAME =~ "Darwin" ]]; then
     plugins+=(darwin)
-    elif [[ $UNAME =~ "WSL2" ]]; then
+elif [[ $UNAME =~ "WSL2" ]]; then
     plugins+=(wsl)
-    elif [[ $UNAME =~ "Android" ]]; then
+elif [[ $UNAME =~ "Android" ]]; then
     echo "U are using Android! I know"
     sshd
 else
@@ -126,9 +123,11 @@ plugins+=(
     sysbench
     custom
     kernel
+    agent # agent skills sync
 )
 DISABLE_AUTO_UPDATE=true
-ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="bg=cyan,bold,underline"
+# 256-color style -- https://upload.wikimedia.org/wikipedia/commons/1/15/Xterm_256color_chart.svg
+ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="bg=#dfaf5f,bold,underline"
 ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE=50
 
 autoload -U compinit && compinit -u

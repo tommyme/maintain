@@ -130,6 +130,12 @@
   "accessibility.signals.diffLineModified": {
     "sound": "off"
   },
-  "window.title": "${rootName}",
-  "workbench.editor.empty.hint": "hidden"
+"window.title": "${rootName}",
+  "workbench.editor.empty.hint": "hidden",
+  "claudeCode.preferredLocation": "panel",
+  "tabnine.experimentalAutoImports": true,
+  "git.confirmSync": false,
+  "chat.useClaudeHooks": true,
+  "claudeCode.allowDangerouslySkipPermissions": true,
+  "claudeCode.useCtrlEnterToSend": true
 }
