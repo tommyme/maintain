@@ -61,7 +61,6 @@ export PATH="$BUN_INSTALL/bin:$PATH"
 if command -v zoxide > /dev/null; then
     eval "$(zoxide init zsh)"
 fi
-alias j=z
 
 # thefuck
 if command -v thefuck > /dev/null; then

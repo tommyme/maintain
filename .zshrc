@@ -62,9 +62,6 @@ alias ..='cd ..'
 alias pod='popd'
 zstyle ':completion:*:make:*:targets' call-command true
 zstyle ':completion:*:*:make:*' tag-order 'targets' 
-function codej(){
-    j $1 && code . && popd
-}
 function clash(){
     if [ $(pgrep clash) ]; then
         echo 'clash is running';
