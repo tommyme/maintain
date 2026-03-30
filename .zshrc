@@ -132,3 +132,8 @@ autoload -U compinit && compinit -u
 source $ZSH/oh-my-zsh.sh
 # . "$HOME/.acme.sh/acme.sh.env"
 
+
+# qmd: use npm version (not bun, which lacks sqlite-vec extension loading)
+alias qmd="BUN_INSTALL= qmd"
+# qmd: 直接用 npm 版本，绕过 bun
+alias qmd='/opt/homebrew/bin/node /opt/homebrew/lib/node_modules/@tobilu/qmd/bin/qmd'
