@@ -6,6 +6,7 @@
 # $env:GIT_SSH = "C:\Windows\system32\OpenSSH\ssh.exe"
 # $env:PATH = "C:\Program Files\Git\usr\bin;"+$env:PATH   # use gnu utils
 # $env:PATH = "$home\tools;"+$env:PATH   # use gnu utils
+$env:PATH = "$env:USERPROFILE\.local\bin;" + $env:PATH
 # Measure-Command {   # 509
 #   Import-Module posh-git
 #   $omp_config = Join-Path $PSScriptRoot ".\takuya.omp.json"
