@@ -211,6 +211,7 @@ mac_setup() {
         brew install --cask qlmarkdown
         brew install --cask qlvideo
         brew install --cask quicklook-json
+        brew install --cask raycast
         brew tap farion1231/ccswitch
         brew install --cask cc-switch
         brew install --cask cmux
