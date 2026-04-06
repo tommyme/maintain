@@ -349,3 +349,5 @@ function sscp {
 
 # zoxide
 Invoke-Expression (& { (zoxide init powershell | Out-String) })
+# claude code
+$env:CLAUDE_CODE_GIT_BASH_PATH="$home\scoop\apps\git\current\bin\bash.exe"
