@@ -1,45 +1,59 @@
-# powershell env setup
+# PowerShell Environment Setup
 
-## scoop setup
+## Scoop Setup
 
 ```powershell
-Set-ExecutionPolicy RemoteSigned -Scope CurrentUser 
+Set-ExecutionPolicy RemoteSigned -Scope CurrentUser
 irm get.scoop.sh | iex
 ```
 
-## font setup 
+## Font Setup
 
-[hack font download link](https://github.com/ryanoasis/nerd-fonts/releases/download/2.2.0-RC/Hack.zip)
+[Hack Nerd Font download](https://github.com/ryanoasis/nerd-fonts/releases/download/v3.2.1/Hack.zip)
 
-## powershell setup
+## Scoop Packages
 
 ```powershell
-# install some package
-scoop install curl sudo jq neovim gcc fzf zoxide starship https://github.com/JanDeDobbeleer/oh-my-posh/releases/latest/download/oh-my-posh.json
-# or less package
-scoop install sudo neovim starship https://github.com/JanDeDobbeleer/oh-my-posh/releases/latest/download/oh-my-posh.json
+scoop install sudo neovim fzf zoxide starship yazi
 ```
 
+## PowerShell Modules
+
 ```powershell
-Install-Module posh-git -Scope CurrentUser -Force
-Install-Module -Name Terminal-Icons -Repository PSGallery -Force
 Install-Module -Name PSReadLine -AllowPrerelease -Scope CurrentUser -Force -SkipPublisherCheck
 Install-Module -Name PSFzf -Scope CurrentUser -Force
-Install-Module -Name Recycle
 ```
 
-here you need to restart `windows terminal` to make it.
+## Windows Terminal Setup
 
-in settings: set font to Hack NF and set whatever you like.
+Set font to Hack Nerd Font in terminal settings.
 
 ```powershell
-mkdir ~\Documents\PowerShell
-nvim $PROFILE       # it's  Documents\PowerShell\Microsoft.PowerShell_profile.ps1
-# . ~\maintain\powershell\user_profile.ps1
+mkdir ~/Documents/PowerShell
+nvim $PROFILE   # opens Documents\PowerShell\Microsoft.PowerShell_profile.ps1
 
-# if you need to use conda
-conda init powershell
-# and start a new powershell
+# Link user profile
+# . ~/maintain/powershell/user_profile.ps1
 ```
 
-## compile funciton Temporarily unavailable
+## Conda (optional)
+
+```powershell
+conda init powershell
+# restart terminal after
+```
+
+## Directory Structure
+
+```
+powershell/
+├── user_profile.ps1    # main config (starship, zoxide, PSReadLine, psfzf)
+├── custom/             # custom scripts (auto-loaded)
+│   └── *.ps1           # files here are auto-sourced
+└── module/
+    └── git.ps1         # git helpers (gcmsg, gco, gcb, grv, gba, gb, gp, gaa)
+```
+
+## Custom Extensions
+
+Drop `.ps1` files under `powershell/custom/` and they will be auto-loaded.
