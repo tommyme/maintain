@@ -21,7 +21,7 @@ window-theme = auto
 
 # === 光标 ===
 cursor-style = bar
-cursor-style-blink = true
+cursor-style-blink = false
 cursor-opacity = 0.8
 
 # === 鼠标 ===
