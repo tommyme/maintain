@@ -18,14 +18,21 @@ ifeq ($(OS),Windows_NT)
 	@echo sudo New-Item -ItemType SymbolicLink -Force -Path "$env:USERPROFILE\AppData\Roaming\Code\User\settings.json" -Target "$env:USERPROFILE\maintain\main\vscode\settings.json"
 else
 	UNAME_S := $(shell uname -s)
-	ifeq ($(UNAME_S),Linux)
+	ifeq ($(UNAME_S),Darwin)
+		mkdir -p ~/Library/Application\ Support/Code/User
+		ln -sf ~/maintain/main/vscode/settings.json ~/Library/Application\ Support/Code/User/settings.json
+		ln -sf ~/maintain/main/vscode/mac/keybindings.json ~/Library/Application\ Support/Code/User/keybindings.json
+		@echo "VS Code settings and keybindings linked on macOS"
+	else ifeq ($(UNAME_S),Linux)
 		@echo "Detected Linux"
-	else ifeq ($(UNAME_S),Darwin)
-		@echo "Detected macOS"
 	else
 		@echo "Unknown OS: $(UNAME_S)"
 	endif
 endif
+
+nvim:
+	git clone -b main https://github.com/tommyme/nvim.git ~/.config/nvim
+	@echo "NVIM cloned to ~/.config/nvim"
 
 # covered by install
 theme:

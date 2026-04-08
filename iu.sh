@@ -188,10 +188,14 @@ wsl_desktop() {
 # Section: mac
 
 mac_setup() {
-    menu "brew" "fonts" "casks" "config"
+    menu "brew" "basic" "fonts" "casks" "config"
 
     install_brew() {
         /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+    }
+
+    basic() {
+        brew install gsed fzf zoxide yazi
     }
 
     fonts() {
@@ -199,6 +203,7 @@ mac_setup() {
         brew install font-hack-nerd-font
         brew install font-fira-code-nerd-font
         brew install font-jetbrains-mono-nerd-font
+        brew install font-ubuntu-mono-nerd-font
     }
 
     casks() {
