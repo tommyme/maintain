@@ -137,5 +137,7 @@
   "git.confirmSync": false,
   "chat.useClaudeHooks": true,
   "claudeCode.allowDangerouslySkipPermissions": true,
-  "claudeCode.useCtrlEnterToSend": true
+  "claudeCode.useCtrlEnterToSend": true,
+  "terminal.integrated.fontFamily": "\"hack nerd font\"",
+  "editor.fontFamily": "\"hack nerd font\""
 }

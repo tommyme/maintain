@@ -200,7 +200,7 @@ mac_setup() {
 
     fonts() {
         echo "installing Nerd Fonts (skip font-space-mono-nerd-font due to Homebrew bug)..."
-        brew install font-hack-nerd-font
+        brew install font-hack-nerd-font # use "hack nerd font" in softwares 
         brew install font-fira-code-nerd-font
         brew install font-jetbrains-mono-nerd-font
         brew install font-ubuntu-mono-nerd-font

@@ -4,6 +4,7 @@
 # Colors: black, red, green, yellow, *blue, magenta, cyan, and white.
 #
 # Mar 2013 Yad Smood
+# Modified to add OS Nerd Font Icons and Hostname
 
 # VCS
 YS_VCS_PROMPT_PREFIX1=" %{$reset_color%}on%{$fg[blue]%} "
@@ -53,6 +54,33 @@ virtenv_prompt() {
 	echo "${YS_THEME_VIRTUALENV_PROMPT_PREFIX}${VIRTUAL_ENV:t}${YS_THEME_VIRTUALENV_PROMPT_SUFFIX}"
 }
 
+# OS Icon Detection (Requires Nerd Fonts)
+os_icon_prompt() {
+    local os_icon=""
+    if [[ "$OSTYPE" == darwin* ]]; then
+        os_icon="%{$fg[white]%}" # macOS (Apple)
+    elif [[ "$OSTYPE" == linux-gnu* ]]; then
+        if [[ -f /etc/os-release ]]; then
+            source /etc/os-release
+            if [[ "$ID" == "ubuntu" ]]; then
+                os_icon="%{$fg[yellow]%}" # Ubuntu
+            elif [[ "$ID" == "arch" ]]; then
+                os_icon="%{$fg[cyan]%}" # Arch Linux
+            else
+                os_icon="%{$fg[white]%}" # Generic Linux (Tux)
+            fi
+        else
+            os_icon="%{$fg[white]%}" # Generic Linux
+        fi
+    elif [[ "$OSTYPE" == cygwin || "$OSTYPE" == msys || "$OSTYPE" == win32 ]]; then
+        os_icon="%{$fg[blue]%}" # Windows
+    else
+        os_icon="%{$fg[white]%}" # Generic Terminal
+    fi
+    echo "%{$terminfo[bold]%}${os_icon}%{$reset_color%}"
+}
+local os_info='$(os_icon_prompt)'
+
 local exit_code="%(?,,C:%{$fg[red]%}%?%{$reset_color%})"
 
 gitcmt_prompt() {
@@ -72,28 +100,26 @@ local conda_info='$(conda_prompt)'
 local proxy_info='$(proxy_prompt)'
 proxy_prompt() {
     declare -i local cnt=0
-    if [ "$http_proxy" != "" ]; then cnt+=1 fi
-    if [ "$https_proxy" != "" ]; then cnt+=1 fi
-    if [ "$all_proxy" != "" ]; then cnt+=1 fi
+    if [ "$http_proxy" != "" ]; then cnt+=1; fi
+    if [ "$https_proxy" != "" ]; then cnt+=1; fi
+    if [ "$all_proxy" != "" ]; then cnt+=1; fi
     if [ $cnt -gt 0 ]; then 
         echo " %{$terminfo[bold]$fg[green]%}[${cnt}px]%{$reset_color%}"; 
     else 
         echo " %{$terminfo[bold]$fg[red]%}[${cnt}px]%{$reset_color%}";
     fi
 }
+
 # Prompt format:
 #
-# PRIVILEGES USER @ MACHINE in DIRECTORY on git:BRANCH STATE [TIME] C:LAST_EXIT_CODE
+#  # PRIVILEGES USER @ MACHINE GIT_COMMIT in DIRECTORY on git:BRANCH STATE [TIME] C:LAST_EXIT_CODE
 # $ COMMAND
 #
-# For example:
-#
-# % ys @ ys-mbp in ~/.oh-my-zsh on git:master x [21:47:42] C:0
-# $
 PROMPT="
-%{$terminfo[bold]$fg[blue]%}#%{$reset_color%} \
-%(#,%{$bg[yellow]%}%{$fg[black]%}%n%{$reset_color%},%{$fg[cyan]%}%n) \
-%{$reset_color%}@ \
+${os_info} %{$terminfo[bold]$fg[blue]%}#%{$reset_color%} \
+%(#,%{$bg[yellow]%}%{$fg[black]%}%n%{$reset_color%},%{$fg[cyan]%}%n)\
+%{$reset_color%}@\
+%{$fg[green]%}%m%{$reset_color%} \
 ${gitcmt_info}\
 %{$reset_color%}in \
 %{$terminfo[bold]$fg[yellow]%}%~%{$reset_color%}\
@@ -105,5 +131,3 @@ ${conda_info}\
 ${proxy_info}\
  $exit_code
 %{$terminfo[bold]$fg[red]%}$ %{$reset_color%}"
-
-# time is omitted `[%*]`

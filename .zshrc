@@ -45,6 +45,7 @@ function pyp() {
         export PYTHONPATH="$1:$PYTHONPATH"
     fi
 }
+pyp "$home/maintain/main/pypkgs"
 alias pypwd="pyp \"\$(pwd)\""
 alias pypc="echo \$PYTHONPATH"  # pypath check
 
