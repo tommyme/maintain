@@ -134,3 +134,16 @@ function install-fzf() {
     chmod a+x fzf-preview.sh fzf-tmux
     mv fzf fzf-preview.sh fzf-tmux $HOME/.local/bin
 }
+
+# 增强版 cd：支持直接 cd 到文件所在的目录
+cd() {
+  # 检查是否只有一个参数，并且该参数是一个存在的文件 (绝对路径或相对路径均可)
+  if [[ $# -eq 1 && -f "$1" ]]; then
+    # ${1:h} 是 zsh 的内置修饰符 (head)，作用等同于 dirname "$1"
+    # 使用 builtin 确保调用的是原生 cd，防止无限递归死循环
+    builtin cd "${1:h}"
+  else
+    # 其他情况（如无参数、正常目录、多参数等）保持默认行为
+    builtin cd "$@"
+  fi
+}
